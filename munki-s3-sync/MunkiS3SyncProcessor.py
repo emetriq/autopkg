@@ -73,9 +73,9 @@ class MunkiS3SyncProcessor(Processor):
         for result in run_results:
             for item in result:
                 if item.get("Processor") == "MunkiImporter":
-                    if item["Output"].get("pkginfo_repo_path"):
-                        something_imported = True
-                        break
+                    #if item["Output"].get("pkginfo_repo_path"):
+                    something_imported = True
+                    break
 	#if not something_imported and not self.env.get("force_rebuild"):
         if not something_imported:
             self.output("No need to sync catalogs.")
