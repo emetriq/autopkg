@@ -27,7 +27,7 @@ __all__ = ["MunkiS3SyncProcessor"]
 class MunkiS3SyncProcessor(Processor):
     """Runs munki-s3-sync on a munki repo"""
 
-    #input_variables = {
+    input_variables = {
     #    "MUNKI_REPO": {"required": True, "description": "Munki repo URL."},
     #    "MUNKI_REPO_PLUGIN": {
     #        "required": False,
@@ -39,7 +39,7 @@ class MunkiS3SyncProcessor(Processor):
     #            "If not false or empty or undefined, force a makecatalogs run."
     #        ),
     #    },
-    #}
+    }
     output_variables = {
         "munkis3sync_resultcode": {
             "description": "Result code from the munki-s3-sync operation."
