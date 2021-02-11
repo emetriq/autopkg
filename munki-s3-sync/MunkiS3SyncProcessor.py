@@ -84,15 +84,6 @@ class MunkiS3SyncProcessor(Processor):
         else:
             # Generate arguments for munki-s3-sync.
             args = ["/usr/local/bin/munki-s3-sync.sh"]
-            
-            #if self.env["MUNKI_REPO"].startswith("/"):
-            #    # looks a file path instead of a URL
-            #    args.append(self.env["MUNKI_REPO"])
-            #else:
-            #    args.extend(["--repo-url", self.env["MUNKI_REPO"]])
-
-            #if self.env.get("MUNKI_REPO_PLUGIN"):
-            #    args.extend(["--plugin", self.env["MUNKI_REPO_PLUGIN"]])
 
             # Call munki-s3-sync.
             try:
