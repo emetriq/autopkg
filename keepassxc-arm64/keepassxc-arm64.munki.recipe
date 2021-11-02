@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Downloads the latest release of KeePassXC-arm64 and imports it into Munki.</string>
 	<key>Identifier</key>
-	<string>com.github.emetriq.munki.KeePassXC-arm64</string>
+	<string>com.github.emetriq.autopkg.munki.KeePassXC-arm64</string>
 	<key>Input</key>
 	<dict>
 		<key>MUNKI_REPO_SUBDIR</key>
@@ -43,7 +43,7 @@
 			<key>developer</key>
 			<string>KeePassXC</string>
 			<key>display_name</key>
-			<string>KeePassXC-arm4</string>
+			<string>KeePassXC-arm64</string>
 			<key>name</key>
 			<string>%NAME%</string>
 			<key>category</key>

@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Downloads the latest release of KeePassXC-arm64 from Github.</string>
 	<key>Identifier</key>
-	<string>com.github.emetriq.download.KeePassXC-arm64</string>
+	<string>com.github.emetriq.autopkg.download.KeePassXC-arm64</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>
@@ -42,7 +42,7 @@
 			<key>Arguments</key>
 			<dict>
 				<key>input_path</key>
-				<string>%pathname%/KeePassXC-arm64.app</string>
+				<string>%pathname%/KeePassXC.app</string>
 				<key>requirement</key>
 				<string>identifier "org.keepassxc.keepassxc" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = G2S7P7J672</string>
 			</dict>
