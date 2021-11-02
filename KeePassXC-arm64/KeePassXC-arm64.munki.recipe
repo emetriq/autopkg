@@ -55,7 +55,7 @@
 	<key>MinimumVersion</key>
 	<string>0.6.1</string>
 	<key>ParentRecipe</key>
-	<string>com.github.emetriq.download.KeePassXC-arm64</string>
+	<string>com.github.emetriq.autopkg.download.KeePassXC-arm64</string>
 	<key>Process</key>
 	<array>
 		<dict>
