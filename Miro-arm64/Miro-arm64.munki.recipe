@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of Miro and imports into Munki.</string>
 	<key>Identifier</key>
-	<string>com.github.emetriq.autopkg.download.Miro-arm64</string>
+	<string>com.github.emetriq.autopkg.munki.Miro-arm64</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>
