@@ -5,7 +5,7 @@
 		<key>Description</key>
 		<string>Downloads the current release version of Miro and creates a package.</string>
 		<key>Identifier</key>
-		<string>com.github.emetriq.autopkg.pkg.Miro</string>
+		<string>com.github.emetriq.autopkg.pkg.Miro-arm64</string>
 		<key>Input</key>
 		<dict>
 			<key>NAME</key>
