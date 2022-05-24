@@ -10,7 +10,7 @@ x86_64: https://desktop.miro.com/platforms/darwin/Miro.dmg
 arm64: https://desktop.miro.com/platforms/darwin-arm64/Miro.dmg
 </string>
     <key>Identifier</key>
-    <string>com.github.emetriq.autopkg.download.Miro-arm64</string>
+    <string>com.github.emetriq.autopkg.download.Miro_arm64</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
