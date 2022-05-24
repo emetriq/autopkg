@@ -25,7 +25,7 @@
 			<key>display_name</key>
 			<string>%NAME%</string>
 			<key>name</key>
-			<string>%NAME%</string>
+			<string>Miro_arm64</string>
 			<key>unattended_install</key>
 			<true/>
 			<key>unattended_uninstall</key>
@@ -35,7 +35,7 @@
 	<key>MinimumVersion</key>
 	<string>1.0.0</string>
     <key>ParentRecipe</key>
-    <string>com.github.emetriq.autopkg.pkg.Miro_arm64</string>
+    <string>com.github.emetriq.autopkg.download.Miro_arm64</string>
 	<key>Process</key>
 	<array>
 		<dict>
