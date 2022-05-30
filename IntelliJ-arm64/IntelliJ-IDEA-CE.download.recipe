@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the current release version of IntelliJ IDEA Community Edition (arm64).</string>
+    <string>Downloads the current release version of IntelliJ IDEA Community Edition.</string>
     <key>Identifier</key>
-    <string>com.github.emetriq.autopkg.download.IntelliJ-IDEA-CE_arm64</string>
+    <string>com.github.emetriq.autopkg.download.IntelliJ-IDEA-CE</string>
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>IntelliJ IDEA Community Edition (arm64)</string>
+        <string>IntelliJ IDEA Community Edition</string>
         <key>PROD_CODE</key>
         <string>IIC</string>
         <key>CPU_TYPE</key>
-        <string>macM1</string>
+        <string>mac</string>
         <key>CSV_REQ</key>
         <string>identifier "com.jetbrains.intellij.ce" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = "2ZEFAR8TH3"</string>
     </dict>
