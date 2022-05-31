@@ -1,0 +1,23 @@
+Description: Downloads the latest release version of Azul Zulu JDK for a given version and architecture.
+Identifier: com.github.emetriq.autopkg.download.zulu-jdk
+MinimumVersion: 2.3.0
+
+Input:
+  NAME: ZuluJDK
+  JAVA_VERSION: A valid major version like 8, 11 or 17
+  JAVA_ARCH: A valid architecture like arm or x86
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    url: https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?java_version=%JAVA_VERSION%&amp;os=macos&amp;arch=%JAVA_ARCH%&amp;ext=dmg&amp;release_status=ga
+
+- Processor: EndOfCheckPhase
+
+- Processor: CodeSignatureVerifier
+  Arguments:
+    expected_authority_names:
+    - 'Developer ID Installer: Azul Systems, Inc. (TDTHCUPYFR)'
+    - 'Developer ID Certification Authority'
+    - 'Apple Root CA'
+    input_path: '%pathname%/Double*.pkg'
