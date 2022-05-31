@@ -7,11 +7,11 @@ Input:
   NAME: ZuluJDK
   JAVA_VERSION: A valid major version like 8, 11 or 17
   JAVA_ARCH: A valid architecture like arm or x86
-  MUNKI_DISPLAYNAME: Azul Zulu Open JDK %JAVA_VERSION% (%ARCHITECTURE%)
-  MUNKI_DESCRIPTION: Java %JAVA_VERSION% (OpenJDK) for %ARCHITECTURE%
-  MUNKI_CATEGORY: Developer Tools
-  MUNKI_DEVELOPER: Azul Systems
-  MUNKI_REPO_SUBDIR: %NAME%
+  MUNKI_DISPLAYNAME: 'Azul Zulu Open JDK %JAVA_VERSION% (%ARCHITECTURE%)'
+  MUNKI_DESCRIPTION: 'Java %JAVA_VERSION% (OpenJDK) for %ARCHITECTURE%'
+  MUNKI_CATEGORY: 'Developer Tools'
+  MUNKI_DEVELOPER: 'Azul Systems'
+  MUNKI_REPO_SUBDIR: '%NAME%'
   pkginfo:
     catalogs:
     - testing

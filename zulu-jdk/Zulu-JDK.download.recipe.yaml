@@ -10,7 +10,8 @@ Input:
 Process:
 - Processor: URLDownloader
   Arguments:
-    url: https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?java_version=%JAVA_VERSION%&amp;os=macos&amp;arch=%JAVA_ARCH%&amp;ext=dmg&amp;release_status=ga
+    prefetch_filename: True
+    url: 'https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?java_version=%JAVA_VERSION%&os=macos&arch=%JAVA_ARCH%&ext=dmg&release_status=ga'
 
 - Processor: EndOfCheckPhase
 
