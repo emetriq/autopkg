@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads and imports the latest release version of Azul Zulu JDK for a given version and architecture.</string>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.pkg.zulu-jdk</string>
+
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>ZuluJDK</string>
+        <key>JAVA_VERSION</key>
+        <string>A valid major version like 8, 11 or 17</string>
+        <key>JAVA_ARCH</key>
+        <string>A valid architecture like arm or x86</string>
+    </dict>
+
+    <key>MinimumVersion</key>
+    <string>2.3.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.emetriq.autopkg.download.zulu-jdk</string>
+
+    <key>Process</key>
+    <array>
+        <!-- the version can be found inside the package which is stored in the downloaded DMG -->
+        <!-- some "magic" has to be done, so this recipe is just copying the pkg to a cache dir -->
+        <!-- the "magic" is done by the munki.recipe -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%.pkg</string>
+                <key>source_pkg</key>
+                <string>%pathname%/Double-Click to Install Azul Zulu JDK %JAVA_VERSION%.pkg</string>
+            </dict>
+            <key>Processor</key>
+            <string>PkgCopier</string>
+        </dict>
+    </array>
+
+</dict>
+</plist>

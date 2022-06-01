@@ -1,6 +1,6 @@
 Description: Downloads the latest release version of Azul Zulu JDK for a given version and architecture.
-Identifier: com.github.emetriq.autopkg.pkg.zulu-jdk
-ParentRecipe: com.github.emetriq.autopkg.download.zulu-jdk
+Identifier: com.github.emetriq.autopkg.pkg.zulu-jdk-yaml
+ParentRecipe: com.github.emetriq.autopkg.download.zulu-jdk-yaml
 MinimumVersion: 2.3.0
 
 Input:
@@ -17,5 +17,5 @@ Process:
 
 - Processor: PkgCopier
   Arguments:
-    pkg_path: '%RECIPE_CACHE_DIR%/%version%.pkg'
+    pkg_path: '%RECIPE_CACHE_DIR%/%NAME%.pkg'
     source_pkg: '%pathname%/Double-Click to Install Azul Zulu JDK %JAVA_VERSION%.pkg'

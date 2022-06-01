@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads and imports the latest release version of Azul Zulu JDK for a given version and architecture.</string>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.munki.zulu-jdk</string>
+
+    <key>Input</key>
+    <dict>
+        <!-- the next four arguments MUST be set by an override -->
+        <key>NAME</key>
+        <string>ZuluJDK</string>
+        <key>JAVA_VERSION</key>
+        <string>A valid major version like 8, 11 or 17</string>
+        <key>JAVA_ARCH</key>
+        <string>A valid architecture like arm or x86</string>
+        <key>MUNKI_ARCHITECTURE</key>
+        <string>A support macOS architecture: x86_64 or arm64</string>
+
+        <!-- the other arguments are optional - set them as you need them for your munki installation -->
+        <key>MUNKI_DISPLAYNAME</key>
+        <string>Azul Zulu Open JDK %JAVA_VERSION% (%ARCHITECTURE%)</string>
+        <key>MUNKI_DESCRIPTION</key>
+        <string>Java %JAVA_VERSION% (OpenJDK) for %ARCHITECTURE%</string>
+        <key>MUNKI_CATEGORY</key>
+        <string>Developer Tools</string>
+        <key>MUNKI_DEVELOPER</key>
+        <string>Azul Systems Inc.</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>%NAME%</string>
+
+        <!-- under normal circumstances, these arguments doesn't have to be configured -->
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>category</key>
+            <string>%MUNKI_CATEGORY%</string>
+            <key>description</key>
+            <string>%MUNKI_DESCRIPTION%</string>
+            <key>developer</key>
+            <string>%MUNKI_DEVELOPER%</string>
+            <key>display_name</key>
+            <string>%MUNKI_DISPLAYNAME%</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>supported_architectures</key>
+            <array>
+                <string>%MUNKI_ARCHITECTURE%</string>
+            </array>
+            <key>unattended_install</key>
+            <true/>
+            <key>unattended_uninstall</key>
+            <true/>
+            <key>uninstallable</key>
+            <true/>
+        </dict>
+    </dict>
+
+    <key>MinimumVersion</key>
+    <string>2.3.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.emetriq.autopkg.pkg.zulu-jdk</string>
+
+    <key>Process</key>
+    <array>
+        <!-- Most of the following "magic" is done to get the version number -->
+        <!-- unpack the package -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/unpack</string>
+                <key>flat_pkg_path</key>
+                <string>%pkg_path%</string>
+            </dict>
+            <key>Processor</key>
+            <string>FlatPkgUnpacker</string>
+        </dict>
+
+        <!-- create a folder structure to unpack the PayLoad from the package -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkgdirs</key>
+                <dict>
+                    <key>Library</key>
+                    <string>'0755'</string>
+                    <key>Library/Java</key>
+                    <string>'0755'</string>
+                    <key>Library/Java/JavaVirtualMachines</key>
+                    <string>'0755'</string>
+                    <key>Library/Java/JavaVirtualMachines/zulu-%JAVA_VERSION%.jdk</key>
+                    <string>'0755'</string>
+                </dict>
+                <key>pkgroot</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+            </dict>
+            <key>Processor</key>
+            <string>PkgRootCreator</string>
+        </dict>
+
+        <!-- unpack the PayLoad -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/Library/Java/JavaVirtualMachines/zulu-%JAVA_VERSION%.jdk</string>
+                <key>pkg_payload_path</key>
+                <string>%RECIPE_CACHE_DIR%/unpack/zulu-%JAVA_VERSION%.pkg/Payload</string>
+                <key>purge_destination</key>
+                <true/>
+            </dict>
+            <key>Processor</key>
+            <string>PkgPayloadUnpacker</string>
+        </dict>
+
+        <!-- the version is stored in the key "CFBundleShortVersionString" - so we use this for version camparison -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>faux_root</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/</string>
+                <key>installs_item_paths</key>
+                <array>
+                    <string>/Library/Java/JavaVirtualMachines/zulu-%JAVA_VERSION%.jdk</string>
+                </array>
+                <key>version_comparison_key</key>
+                <string>CFBundleShortVersionString</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiInstallsItemsCreator</string>
+        </dict>
+
+        <!-- store the "CFBundleShortVersionString" into the variable "version" -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>info_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/Library/Java/JavaVirtualMachines/zulu-%JAVA_VERSION%.jdk/Contents/Info.plist</string>
+                <key>pkgroot</key>
+                <dict>
+                    <key>CFBundleShortVersionString</key>
+                    <string>version</string>
+                </dict>
+            </dict>
+            <key>Processor</key>
+            <string>PlistReader</string>
+        </dict>
+
+        <!-- merge the variable "version" to the package infos so it's usable for the MunkiImporter -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>additional_pkginfo</key>
+                <dict>
+                    <key>version</key>
+                    <string>%version%</string>
+                </dict>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+        </dict>
+
+        <!-- Import the DMG -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+
+        <!-- Cleanup folders -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>path_list</key>
+                <array>
+                    <string>%RECIPE_CACHE_DIR%/%NAME%/</string>
+                    <string>%RECIPE_CACHE_DIR%/unpack/</string>
+                </array>
+            </dict>
+            <key>Processor</key>
+            <string>PathDeleter</string>
+        </dict>
+    </array>
+
+</dict>
+</plist>

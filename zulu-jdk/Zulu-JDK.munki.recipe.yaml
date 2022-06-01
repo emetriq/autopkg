@@ -1,6 +1,6 @@
 Description: Downloads the latest release version of Azul Zulu JDK for a given version and architecture.
-Identifier: com.github.emetriq.autopkg.munki.zulu-jdk
-ParentRecipe: com.github.emetriq.autopkg.pkg.zulu-jdk
+Identifier: com.github.emetriq.autopkg.munki.zulu-jdk-yaml
+ParentRecipe: com.github.emetriq.autopkg.pkg.zulu-jdk-yaml
 MinimumVersion: 2.3.0
 
 Input:
@@ -49,7 +49,7 @@ Process:
     faux_root: '%RECIPE_CACHE_DIR%/%NAME%/'
     installs_item_paths:
     - /Library/Java/JavaVirtualMachines/zulu-%JAVA_VERSION%.jdk
-    version_comparison_key: CFBundleVersion
+    version_comparison_key: CFBundleShortVersionString
 
 - Processor: MunkiPkginfoMerger
 
@@ -57,7 +57,7 @@ Process:
   Arguments:
     info_path: '%RECIPE_CACHE_DIR%/%NAME%/Library/Java/JavaVirtualMachines/zulu-%JAVA_VERSION%.jdk/Contents/Info.plist'
     plist_keys:
-      CFBundleVersion: version
+      CFBundleShortVersionString: version
 
 - Processor: MunkiPkginfoMerger
   Arguments:
@@ -66,7 +66,7 @@ Process:
 
 - Processor: MunkiImporter
   Arguments:
-    pkg_path: '%pkg_path%'
+    pkg_path: '%pathname%'
     repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
 
 - Processor: PathDeleter
