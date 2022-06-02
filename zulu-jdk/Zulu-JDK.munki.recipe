@@ -89,19 +89,33 @@
                 <key>pkgdirs</key>
                 <dict>
                     <key>Library</key>
-                    <string>'0755'</string>
+                    <string>0755</string>
                     <key>Library/Java</key>
-                    <string>'0755'</string>
+                    <string>0755</string>
                     <key>Library/Java/JavaVirtualMachines</key>
-                    <string>'0755'</string>
-                    <key>Library/Java/JavaVirtualMachines/zulu-%JAVA_VERSION%.jdk</key>
-                    <string>'0755'</string>
+                    <string>0755</string>
+                    <key>Library/Java/JavaVirtualMachines/zulu.jdk</key>
+                    <string>0755</string>
                 </dict>
                 <key>pkgroot</key>
                 <string>%RECIPE_CACHE_DIR%/%NAME%</string>
             </dict>
             <key>Processor</key>
             <string>PkgRootCreator</string>
+        </dict>
+
+        <!-- move the temporary package root -->
+        <!-- this hast to be done since the PkgRootCreator cannot deal with Arguments inside the <key> Element -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>source</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/Library/Java/JavaVirtualMachines/zulu.jdk</string>
+                <key>target</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/Library/Java/JavaVirtualMachines/zulu-%JAVA_VERSION%.jdk</string>
+            </dict>
+            <key>Processor</key>
+            <string>FileMover</string>
         </dict>
 
         <!-- unpack the PayLoad -->
