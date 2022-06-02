@@ -16,7 +16,7 @@
         <key>JAVA_ARCH</key>
         <string>A valid architecture like arm or x86</string>
         <key>url</key>
-        <string>https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?java_version=%JAVA_VERSION%&os=macos&arch=%JAVA_ARCH%&ext=dmg&release_status=ga</string>
+        <string>https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?java_version=%JAVA_VERSION%&amp;os=macos&amp;arch=%JAVA_ARCH%&amp;ext=dmg&amp;release_status=ga</string>
     </dict>
 
     <key>MinimumVersion</key>
