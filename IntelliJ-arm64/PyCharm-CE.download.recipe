@@ -11,7 +11,7 @@
         <key>NAME</key>
         <string>PyCharm Community Edition</string>
         <key>PROD_CODE</key>
-        <string>PPC</string>
+        <string>PCC</string>
         <key>CPU_TYPE</key>
         <string>mac</string>
         <key>CSV_REQ</key>
