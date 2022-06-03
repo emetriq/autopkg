@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest release of Docker Desktop and imports it into Munki.</string>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.munki.DockerDesktop</string>
+    <key>Input</key>
+    <dict>
+        <key>DOCKER_ARCH</key>
+        <string>A valid architecture like amd64 or arm64</string>
+        <key>MUNKI_ARCHITECTURE</key>
+        <string>A support macOS architecture: x86_64 or arm64</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps/%NAME%</string>
+        <key>NAME</key>
+        <string>DockerDesktop-%MUNKI_ARCHITECTURE%</string>
+        <key>MUNKI_CATEGORY</key>
+        <string>Utilities</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>Automates deployment of containerized applications.</string>
+            <key>developer</key>
+            <string>Docker Inc.</string>
+            <key>display_name</key>
+            <string>Docker Desktop (%MUNKI_ARCHITECTURE%)</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>category</key>
+            <string>%MUNKI_CATEGORY%</string>
+            <key>supported_architectures</key>
+            <array>
+                <string>%MUNKI_ARCHITECTURE%</string>
+            </array>
+            <key>postinstall_script</key>
+            <string>#!/bin/bash
+/Applications/Docker.app/Contents/MacOS/Docker --install-privileged-components
+exit 0</string>
+            <key>postuninstall_script</key>
+            <string>#!/bin/bash
+#
+# This script just reverses the postinstall operations
+#
+
+# Unload networking
+# (use -F to force this; there are probably better ways to do this
+# but this margin isn't big enough ...)
+/bin/launchctl unload -F /Library/LaunchDaemons/com.docker.vmnetd.plist
+
+rm -f /Library/LaunchDaemons/com.docker.vmnetd.plist
+rm -f /Library/PrivilegedHelperTools/com.docker.vmnetd
+rm -f /var/tmp/com.docker.vmnetd.socket
+
+for tool in docker docker-compose docker-diagnose docker-machine notary; do
+    rm -f /usr/local/bin/${tool}
+done
+exit 0</string>
+            <key>uninstall_method</key>
+            <string>remove_copied_items</string>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>2.3.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.emetriq.autopkg.download.DockerDesktop</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>version_comparison_key</key>
+                <string>CFBundleShortVersionString</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
