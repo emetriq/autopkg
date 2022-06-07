@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest release of Brackets and imports it into Munki.</string>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.munki.Brackets</string>
+    <key>Input</key>
+    <dict>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps/%NAME%</string>
+        <key>NAME</key>
+        <string>Brackets</string>
+        <key>MUNKI_CATEGORY</key>
+        <string>Utilities</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>Brackets is a open source code editor with a primary focus on web development.</string>
+            <key>developer</key>
+            <string>brackets.io</string>
+            <key>display_name</key>
+            <string>Brackets</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>category</key>
+            <string>%MUNKI_CATEGORY%</string>
+            <key>uninstall_method</key>
+            <string>remove_copied_items</string>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>2.3.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.emetriq.autopkg.download.Brackets</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
