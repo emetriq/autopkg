@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads and imports the latest release version of Azul Zulu JDK for a given version and architecture.</string>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.munki.zulu-jdk-v2</string>
+
+    <key>Input</key>
+    <dict>
+        <!-- the next four arguments MUST be set by an override -->
+        <key>NAME</key>
+        <string>ZuluJDK</string>
+        <key>JAVA_VERSION</key>
+        <string>A valid major version like 8, 11 or 17</string>
+        <key>JAVA_ARCH</key>
+        <string>A valid architecture like arm or x86</string>
+
+        <!-- the other arguments are optional - set them as you need them for your munki installation -->
+        <key>MUNKI_DISPLAYNAME</key>
+        <string>Azul Zulu Open JDK %JAVA_VERSION% (%ARCHITECTURE%)</string>
+        <key>MUNKI_DESCRIPTION</key>
+        <string>Java %JAVA_VERSION% (OpenJDK) for %ARCHITECTURE%</string>
+        <key>MUNKI_CATEGORY</key>
+        <string>Developer Tools</string>
+        <key>MUNKI_DEVELOPER</key>
+        <string>Azul Systems Inc.</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>%NAME%</string>
+
+        <!-- under normal circumstances, these arguments doesn't have to be configured -->
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>category</key>
+            <string>%MUNKI_CATEGORY%</string>
+            <key>description</key>
+            <string>%MUNKI_DESCRIPTION%</string>
+            <key>developer</key>
+            <string>%MUNKI_DEVELOPER%</string>
+            <key>display_name</key>
+            <string>%MUNKI_DISPLAYNAME%</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>unattended_install</key>
+            <true/>
+            <key>unattended_uninstall</key>
+            <true/>
+            <key>uninstallable</key>
+            <true/>
+        </dict>
+    </dict>
+
+    <key>MinimumVersion</key>
+    <string>2.3.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.emetriq.autopkg.download.zulu-jdk-v2</string>
+
+    <key>Process</key>
+    <array>
+        <!-- merge the variable "JDK_VERSION" to the package infos so it's usable for the MunkiImporter -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>additional_pkginfo</key>
+                <dict>
+                    <key>version</key>
+                    <string>%JDK_VERSION%</string>
+                    <key>installcheck_script</key>
+                    <string>%JDK_CHECK%</string>
+                    <key>supported_architectures</key>
+                    <array>
+                       <string>%MUNKI_ARCHITECTURE%</string>
+                    </array>
+                </dict>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+        </dict>
+
+        <!-- Import the DMG -->
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+
+</dict>
+</plist>
