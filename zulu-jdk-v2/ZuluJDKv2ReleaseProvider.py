@@ -116,7 +116,7 @@ exit 0
             self.env["JDK_CHECK"] = jdkCheckScript
             if self.env["JAVA_ARCH"] == "arm":
                 self.env["MUNKI_ARCHITECTURE"] = "arm64"
-            elif self.env["JAVA_ARCH"] == "arm":
+            elif self.env["JAVA_ARCH"] == "x86":
                 self.env["MUNKI_ARCHITECTURE"] = "x86_64"
         else:
             # Something gone wrong, so the recipe will crash now
