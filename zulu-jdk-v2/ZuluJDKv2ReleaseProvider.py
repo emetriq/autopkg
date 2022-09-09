@@ -33,7 +33,7 @@ class ZuluJDKv2ReleaseProvider(URLGetter):
     def main(self):
         # Azul has an API, which gives us the latest release
         # for given version and architecture
-        apiCall = "%s/?java_version=%s&os=macos&arch=%s&ext=dmg&release_status=ga" % (
+        apiCall = "%s/?java_version=%s&os=macos&arch=%s&ext=dmg&release_status=ga&package=jdk" % (
             apiBaseUrl, self.env["JAVA_VERSION"], self.env["JAVA_ARCH"]
         )
         self.output("Get latest Version from api with: %s" % apiCall)
