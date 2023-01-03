@@ -9,7 +9,7 @@
     <key>Input</key>
     <dict>
         <key>url</key>
-        <string>https://my.pascom.net/update/client/stable/macos</string>
+        <string>https://my.pascom.net/update/client/cloud/macos</string>
     </dict>
     <key>MinimumVersion</key>
     <string>2.3.0</string>
