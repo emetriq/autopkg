@@ -40,7 +40,8 @@
             </array>
             <key>postinstall_script</key>
             <string>#!/bin/bash
-/Applications/Docker.app/Contents/MacOS/Docker --install-privileged-components
+currentUser="$(/usr/sbin/scutil <<< "show State:/Users/ConsoleUser" | /usr/bin/awk '/Name :/ && ! /loginwindow/ { print $3 }')"
+sudo "/Applications/Docker.app/Contents/MacOS/install" --user "${currentUser}"
 exit 0</string>
             <key>postuninstall_script</key>
             <string>#!/bin/bash
