@@ -36,6 +36,10 @@
 			<string>%NAME%</string>
 			<key>unattended_install</key>
 			<true/>
+			<key>supported_architectures</key>
+			<array>
+				<string>%MUNKI_ARCH%</string>
+			</array>
 		</dict>
 	</dict>
 	<key>MinimumVersion</key>
