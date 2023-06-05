@@ -23,7 +23,7 @@
 				<string>testing</string>
 			</array>
 			<key>description</key>
-			<string>Das Work-Management-Tool gemacht für Agentur, Beratung & Tech</string>
+			<string>Das Work-Management-Tool gemacht für Agentur, Beratung &amp; Tech</string>
 			<key>developer</key>
 			<string>awork GmbH</string>
 			<key>display_name</key>
