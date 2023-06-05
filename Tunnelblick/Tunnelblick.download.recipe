@@ -32,7 +32,7 @@
 			<key>Arguments</key>
 			<dict>
 				<key>filename</key>
-				<string>%NAME%.dmg</string>
+				<string>%NAME%-%version%.dmg</string>
 				<key>url</key>
 				<string>https://tunnelblick.net/iprelease/Tunnelblick_%version%_build_%build%.dmg</string>
 			</dict>
@@ -53,17 +53,6 @@
 			</dict>
 			<key>Processor</key>
 			<string>CodeSignatureVerifier</string>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>input_plist_path</key>
-				<string>%pathname%/Tunnelblick.app/Contents/Info.plist</string>
-				<key>plist_version_key</key>
-				<string>CFBundleVersion</string>
-			</dict>
-			<key>Processor</key>
-			<string>Versioner</string>
 		</dict>
 	</array>
 </dict>
