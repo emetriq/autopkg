@@ -30,6 +30,8 @@
 			<string>awork (%ARCH%)</string>
 			<key>name</key>
 			<string>%NAME%</string>
+			<key>category</key>
+			<string>Tools</string>
 			<key>unattended_install</key>
 			<true/>
 			<key>supported_architectures</key>
