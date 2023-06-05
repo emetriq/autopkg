@@ -20,10 +20,21 @@
 		<dict>
 			<key>Arguments</key>
 			<dict>
+				<key>re_pattern</key>
+				<string>/iprelease/Tunnelblick_(?P&lt;version&gt;[\d\.]+[a-z]?)_build_(?P&lt;build&gt;[\d\.]+)\.dmg</string>
+				<key>url</key>
+				<string>https://tunnelblick.net/downloads.html</string>
+			</dict>
+			<key>Processor</key>
+			<string>URLTextSearcher</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
 				<key>filename</key>
 				<string>%NAME%.dmg</string>
 				<key>url</key>
-				<string>https://tunnelblick.net/iprelease/Latest_Tunnelblick_Stable.dmg</string>
+				<string>https://tunnelblick.net/iprelease/Tunnelblick_%version%_build_%build%.dmg</string>
 			</dict>
 			<key>Processor</key>
 			<string>URLDownloader</string>
