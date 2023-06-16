@@ -16,12 +16,6 @@
 		<string>Managed Software Center</string>
 		<key>pkginfo</key>
 		<dict>
-			<key>blocking_applications</key>
-			<array>
-				<string>Managed Software Center.app</string>
-				<string>munki-notifier.app</string>
-				<string>MunkiStatus.app</string>
-			</array>
 			<key>catalogs</key>
 			<array>
 				<string>testing</string>
