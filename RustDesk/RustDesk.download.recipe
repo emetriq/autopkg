@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Downloads the latest release of RustDesk from Github.</string>
+    <string>Downloads the latest release of RustDesk for ARM from Github.</string>
     <key>Identifier</key>
     <string>com.github.emetriq.autopkg.download.RustDesk</string>
     <key>Input</key>
@@ -11,7 +11,7 @@
         <key>NAME</key>
         <string>RustDesk</string>
         <key>ASSET_REGEX</key>
-        <string>rustdesk-.*\.dmg</string>
+        <string>rustdesk-.*-aarch64\.dmg</string>
     </dict>
     <key>MinimumVersion</key>
     <string>2.3.0</string>
