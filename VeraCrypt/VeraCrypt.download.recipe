@@ -21,7 +21,7 @@
 				<key>re_pattern</key>
 				<string>https:\/\/launchpad\.net\/veracrypt\/trunk\/.*\..*\/\+download\/VeraCrypt_FUSE-T_(?P&lt;latestVersion&gt;[0-9.]+)\.dmg</string>
 				<key>url</key>
-				<string>https://launchpad.net/veracrypt</string>
+				<string>https://www.veracrypt.fr/en/Downloads.html</string>
 			</dict>
 			<key>Processor</key>
 			<string>URLTextSearcher</string>
