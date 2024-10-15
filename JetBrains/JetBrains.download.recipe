@@ -10,6 +10,10 @@
     <dict>
         <key>NAME</key>
         <string>JetBrainsProductDownload</string>
+        <key>DATA_SERVICES_URL</key>
+        <string>https://data.services.jetbrains.com/products/releases</string>
+        <key>RELEASE_TYPE</key>
+        <string>release</string>
         <key>PROD_CODE</key>
         <string>A valid product code can be obtained from https://data.services.jetbrains.com/products</string>
         <key>CPU_TYPE</key>
@@ -25,13 +29,13 @@
             <key>Arguments</key>
             <dict>
                 <key>url</key>
-                <string>https://data.services.jetbrains.com/products/releases?code=%PROD_CODE%&amp;latest=true&amp;type=release</string>
+                <string>%DATA_SERVICES_URL%?code=%PROD_CODE%&amp;latest=true&amp;type=%RELEASE_TYPE%</string>
                 <key>re_pattern</key>
                 <string>"%CPU_TYPE%":{"link":"(https://download.jetbrains.com/.*?.dmg)"</string>
                 <key>request_headers</key>
                 <dict>
                     <key>user-agent</key>
-                    <string>Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:46.0) Gecko/20100101 Firefox/46.0</string>
+                    <string>Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:131.0) Gecko/20100101 Firefox/131.0</string>
                 </dict>
             </dict>
         </dict>
