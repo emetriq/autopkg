@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Description</key>
-    <string>Importiert Vivaldi in das Munki-Repository.</string>
-    <key>Identifier</key>
-    <string>com.github.emetriq.autopkg.Vivaldi.munki</string>
-    <key>ParentRecipe</key>
-    <string>com.github.emetriq.autopkg.Vivaldi.pkg</string>
-    <key>Input</key>
+  <key>Description</key>
+  <string>Imports the packaged Vivaldi browser into a Munki repo with
+display_name and description pre-populated.</string>
+
+  <key>Identifier</key>
+  <string>com.github.emetriq.autopkg.vivaldi.munki</string>
+
+  <key>Input</key>
+  <dict>
+    <key>NAME</key><string>Vivaldi</string>
+    <key>MUNKI_NAME</key><string>Vivaldi</string>
+    <key>MUNKI_REPO_SUBDIR</key><string>apps/vivaldi</string>
+    <key>DISPLAY_NAME</key><string>Vivaldi Browser</string>
+    <key>DESCRIPTION</key>
+    <string>Vivaldi ist ein schneller, datenschutz­freundlicher
+       und stark anpassbarer Web-Browser auf Chromium-Basis.</string>
+  </dict>
+
+  <key>ParentRecipe</key>
+  <string>com.github.emetriq.autopkg.vivaldi.pkg</string>
+
+  <key>Process</key>
+  <array>
     <dict>
-        <key>NAME</key>
-        <string>Vivaldi</string>
-        <key>MUNKI_REPO_SUBDIR</key>
-        <string>apps/browsers</string>
-        <key>catalogs</key>
-        <array>
-            <string>testing</string>
-        </array>
-        <key>display_name</key>
-        <string>Vivaldi Browser</string>
-        <key>description</key>
-        <string>Vivaldi ist ein schneller, hochgradig anpassbarer und datenschutzfreundlicher Webbrowser.</string>
-    </dict>
-    <key>Process</key>
-    <array>
+      <key>Processor</key><string>MunkiImporter</string>
+      <key>Arguments</key>
+      <dict>
+        <key>pkg_path</key><string>%pathname%</string>
+        <key>repo_subdirectory</key><string>%MUNKI_REPO_SUBDIR%</string>
+        <key>pkginfo</key>
         <dict>
-            <key>Processor</key>
-            <string>MunkiImporter</string>
-            <key>Arguments</key>
-            <dict>
-                <key>pkg_path</key>
-                <string>%pkg_path%</string>
-                <key>repo_subdirectory</key>
-                <string>%MUNKI_REPO_SUBDIR%</string>
-                <key>pkginfo</key>
-                <dict>
-                    <key>display_name</key>
-                    <string>%display_name%</string>
-                    <key>description</key>
-                    <string>%description%</string>
-                </dict>
-            </dict>
+          <key>name</key><string>%MUNKI_NAME%</string>
+          <key>display_name</key><string>%DISPLAY_NAME%</string>
+          <key>description</key><string>%DESCRIPTION%</string>
+          <key>developer</key><string>Vivaldi Technologies AS</string>
+          <key>catalogs</key>
+          <array><string>testing</string></array>
         </dict>
-    </array>
+      </dict>
+    </dict>
+  </array>
 </dict>
 </plist>
