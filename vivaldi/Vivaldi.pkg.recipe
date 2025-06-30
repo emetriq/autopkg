@@ -11,11 +11,26 @@
     <dict>
         <key>NAME</key>
         <string>Vivaldi</string>
-        <key>APP_PATH</key>
+        <key>APP_NAME</key>
         <string>Vivaldi.app</string>
     </dict>
     <key>Process</key>
     <array>
+        <!-- Entpacke das DMG in ein temporäres Verzeichnis -->
+        <dict>
+            <key>Processor</key>
+            <string>Unarchiver</string>
+            <key>Arguments</key>
+            <dict>
+                <key>archive_path</key>
+                <string>%pathname%</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/Vivaldi</string>
+                <key>purge_destination</key>
+                <true/>
+            </dict>
+        </dict>
+        <!-- Erstelle das PKG aus dem entpackten App-Bundle -->
         <dict>
             <key>Processor</key>
             <string>PkgCreator</string>
@@ -23,11 +38,13 @@
             <dict>
                 <key>pkg_request</key>
                 <dict>
+                    <key>pkgroot</key>
+                    <string>%RECIPE_CACHE_DIR%/Vivaldi</string>
                     <key>apps</key>
                     <array>
                         <dict>
                             <key>path</key>
-                            <string>%APP_PATH%</string>
+                            <string>Vivaldi.app</string>
                         </dict>
                     </array>
                     <key>version</key>
@@ -35,9 +52,7 @@
                     <key>pkgname</key>
                     <string>Vivaldi-%version%.pkg</string>
                 </dict>
-                <key>source_dmg</key>
-                <string>%pathname%</string>
-            </dict>
+            </key>
         </dict>
     </array>
 </dict>
