@@ -12,13 +12,20 @@
 	<key>ParentRecipe</key>
 	<string>com.github.emetriq.autopkg.Vivaldi.pkg</string>
 
+	<!-- ---------- Eingaben ---------- -->
 	<key>Input</key>
 	<dict>
 		<key>NAME</key><string>Vivaldi</string>
 		<key>MUNKI_REPO_SUBDIR</key><string>apps/browsers</string>
 		<key>catalogs</key><string>testing</string>
+
+		<!-- NEU: Anzeige- und Beschreibungs­text -->
+		<key>display_name</key><string>Vivaldi Browser</string>
+		<key>description</key>
+		<string>Vivaldi ist ein schneller, hochgradig anpassbarer und datenschutz­freundlicher Webbrowser.</string>
 	</dict>
 
+	<!-- ---------- Prozess-Schritte ---------- -->
 	<key>Process</key>
 	<array>
 		<dict>
@@ -28,6 +35,13 @@
 				<key>pkg_path</key><string>%pkg_path%</string>
 				<key>repo_subdirectory</key><string>%MUNKI_REPO_SUBDIR%</string>
 				<key>catalogs</key><string>%catalogs%</string>
+
+				<!-- NEU: pkginfo-Daten für Munki -->
+				<key>pkginfo</key>
+				<dict>
+					<key>display_name</key><string>%display_name%</string>
+					<key>description</key><string>%description%</string>
+				</dict>
 			</dict>
 		</dict>
 	</array>
