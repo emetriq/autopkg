@@ -1,0 +1,12 @@
+Vivaldi.pkg.recipeIdentifier: com.github.emetriq.autopkg.Vivaldi.pkg
+ParentRecipe: com.github.emetriq.autopkg.Vivaldi.download
+Description: Baut aus der App ein signiertes macOS-Installer-PKG.
+Input:
+  NAME: Vivaldi
+Process:
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: '%pathname%/Vivaldi.app'
+      version: '%version%'
+      pkg_request: 'relocatable'
+MinimumVersion: 2.3

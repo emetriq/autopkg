@@ -1,0 +1,13 @@
+Vivaldi.munki.recipeIdentifier: com.github.emetriq.autopkg.Vivaldi.munki
+ParentRecipe: com.github.emetriq.autopkg.Vivaldi.pkg
+Description: Importiert Vivaldi in das Munki-Repository.
+Input:
+  NAME: Vivaldi
+  MUNKI_REPO_SUBDIR: 'apps/browsers'
+  catalogs: 'testing'
+Process:
+  - Processor: MunkiImporter
+    Arguments:
+      pkg_path: '%pkg_path%'
+      repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
+      catalogs: '%catalogs%'

@@ -1,0 +1,26 @@
+Identifier: com.github.emetriq.autopkg.Vivaldi.download
+Description: Lädt die aktuelle stabile Universal-DMG von Vivaldi für macOS herunter.
+Input:
+  NAME: Vivaldi
+  DOWNLOAD_PAGE_URL: https://vivaldi.com/download/
+  DOWNLOAD_REGEX: 'https:\/\/downloads\.vivaldi\.com\/stable\/Vivaldi[0-9\.]+universal\.dmg'
+Process:
+  - Processor: URLTextSearcher
+    Arguments:
+      url: '%DOWNLOAD_PAGE_URL%'
+      re_pattern: '%DOWNLOAD_REGEX%'
+      result_output_var_name: download_url
+  - Processor: URLDownloader
+    Arguments:
+      url: '%download_url%'
+      filename: '%NAME%.dmg'
+  - Processor: EndOfCheckBlock
+  - Processor: AppDmgVersioner
+    Arguments:
+      dmg_path: '%pathname%'
+      app_path: 'Vivaldi.app'
+  - Processor: CodeSignatureVerifier
+    Arguments:
+      input_path: '%pathname%/Vivaldi.app'
+      requirement: 'identifier "com.vivaldi.Vivaldi" and certificate leaf[subject.OU] = "4XF3XNRN6Y"'
+MinimumVersion: 2.3

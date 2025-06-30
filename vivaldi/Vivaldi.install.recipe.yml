@@ -1,0 +1,9 @@
+Vivaldi.install.recipeIdentifier: com.github.emetriq.autopkg.Vivaldi.install
+ParentRecipe: com.github.emetriq.autopkg.Vivaldi.pkg
+Description: Installiert das erzeugte PKG lokal (z. B. für Testläufe oder CI-Jobs).
+Input:
+  NAME: Vivaldi
+Process:
+  - Processor: PkgInstaller
+    Arguments:
+      pkg_path: '%pkg_path%'
