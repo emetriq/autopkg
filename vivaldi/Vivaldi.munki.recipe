@@ -9,7 +9,6 @@
   <string>com.github.emetriq.autopkg.vivaldi.munki</string>
   <key>Input</key>
   <dict>
-    <key>NAME</key><string>Vivaldi</string>
     <key>MUNKI_NAME</key><string>Vivaldi</string>
     <key>MUNKI_REPO_SUBDIR</key><string>apps/vivaldi</string>
     <key>DISPLAY_NAME</key><string>Vivaldi Browser</string>
@@ -21,19 +20,28 @@
   <key>Process</key>
   <array>
     <dict>
-      <key>Processor</key><string>MunkiImporter</string>
+      <key>Processor</key>
+      <string>MunkiImporter</string>
       <key>Arguments</key>
       <dict>
-        <key>pkg_path</key><string>%pathname%</string>
-        <key>repo_subdirectory</key><string>%MUNKI_REPO_SUBDIR%</string>
+        <key>pkg_path</key>
+        <string>%pathname%</string>
+        <key>repo_subdirectory</key>
+        <string>%MUNKI_REPO_SUBDIR%</string>
         <key>pkginfo</key>
         <dict>
-          <key>name</key><string>%MUNKI_NAME%</string>
-          <key>display_name</key><string>%DISPLAY_NAME%</string>
-          <key>description</key><string>%DESCRIPTION%</string>
-          <key>developer</key><string>Vivaldi Technologies AS</string>
+          <key>name</key>
+          <string>%MUNKI_NAME%</string>
+          <key>display_name</key>
+          <string>%DISPLAY_NAME%</string>
+          <key>description</key>
+          <string>%DESCRIPTION%</string>
+          <key>developer</key>
+          <string>Vivaldi Technologies AS</string>
           <key>catalogs</key>
-          <array><string>testing</string></array>
+          <array>
+            <string>testing</string>
+          </array>
         </dict>
       </dict>
     </dict>

@@ -5,22 +5,20 @@
 <dict>
   <key>Description</key>
   <string>Installs the latest Vivaldi.pkg on the local Mac.</string>
-
   <key>Identifier</key>
   <string>com.github.emetriq.autopkg.vivaldi.install</string>
-
   <key>Input</key>
   <dict>
-    <key>NAME</key><string>Vivaldi</string>
+    <key>NAME</key>
+    <string>Vivaldi</string>
   </dict>
-
   <key>ParentRecipe</key>
   <string>com.github.emetriq.autopkg.vivaldi.pkg</string>
-
   <key>Process</key>
   <array>
     <dict>
-      <key>Processor</key><string>Installer</string>
+      <key>Processor</key>
+      <string>Installer</string>
     </dict>
   </array>
 </dict>
