@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
-        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Description</key>
-	<string>Baut aus der App ein signiertes macOS-Installer-PKG.</string>
-
-	<key>Identifier</key>
-	<string>com.github.emetriq.autopkg.Vivaldi.pkg</string>
-
-	<key>ParentRecipe</key>
-	<string>com.github.emetriq.autopkg.Vivaldi.download</string>
-
-	<key>MinimumVersion</key>
-	<string>2.3</string>
-
-	<key>Input</key>
-	<dict>
-		<key>NAME</key><string>Vivaldi</string>
-	</dict>
-
-	<key>Process</key>
-	<array>
-		<dict>
-			<key>Processor</key><string>AppPkgCreator</string>
-			<key>Arguments</key>
-			<dict>
-				<key>app_path</key><string>%pathname%/Vivaldi.app</string>
-				<key>version</key><string>%version%</string>
-				<key>pkg_request</key><string>relocatable</string>
-			</dict>
-		</dict>
-	</array>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.Vivaldi.pkg</string>
+    <key>ParentRecipe</key>
+    <string>com.github.emetriq.autopkg.Vivaldi.download</string>
+    <key>Description</key>
+    <string>Erstellt ein PKG-Installationspaket für Vivaldi.</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>Vivaldi</string>
+        <key>APP_PATH</key>
+        <string>Vivaldi.app</string>
+    </dict>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>PkgCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_request</key>
+                <dict>
+                    <key>apps</key>
+                    <array>
+                        <dict>
+                            <key>path</key>
+                            <string>%APP_PATH%</string>
+                        </dict>
+                    </array>
+                    <key>version</key>
+                    <string>%version%</string>
+                    <key>pkgname</key>
+                    <string>Vivaldi-%version%.pkg</string>
+                </dict>
+                <key>source_dmg</key>
+                <string>%pathname%</string>
+            </dict>
+        </dict>
+    </array>
 </dict>
 </plist>
