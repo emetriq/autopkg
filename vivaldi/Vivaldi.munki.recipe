@@ -4,12 +4,9 @@
 <plist version="1.0">
 <dict>
   <key>Description</key>
-  <string>Imports the packaged Vivaldi browser into a Munki repo with
-display_name and description pre-populated.</string>
-
+  <string>Imports the packaged Vivaldi browser into a Munki repo with display_name and description pre-populated.</string>
   <key>Identifier</key>
   <string>com.github.emetriq.autopkg.vivaldi.munki</string>
-
   <key>Input</key>
   <dict>
     <key>NAME</key><string>Vivaldi</string>
@@ -17,13 +14,10 @@ display_name and description pre-populated.</string>
     <key>MUNKI_REPO_SUBDIR</key><string>apps/vivaldi</string>
     <key>DISPLAY_NAME</key><string>Vivaldi Browser</string>
     <key>DESCRIPTION</key>
-    <string>Vivaldi ist ein schneller, datenschutz­freundlicher
-       und stark anpassbarer Web-Browser auf Chromium-Basis.</string>
+    <string>Vivaldi ist ein schneller, datenschutz­freundlicher und stark anpassbarer Web-Browser auf Chromium-Basis.</string>
   </dict>
-
   <key>ParentRecipe</key>
   <string>com.github.emetriq.autopkg.vivaldi.pkg</string>
-
   <key>Process</key>
   <array>
     <dict>
