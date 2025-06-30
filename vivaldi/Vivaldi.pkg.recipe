@@ -23,7 +23,7 @@
       <string>AppPkgCreator</string>
       <key>Arguments</key>
       <dict>
-        <key>app_path</key>
+        <key>dmg_path</key>
         <string>%pathname%</string>
         <key>pkg_name</key>
         <string>%NAME%-%version%</string>
