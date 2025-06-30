@@ -20,41 +20,41 @@
 
   <key>Process</key>
   <array>
-
-    <!-- erzeugt ein Arbeits-Pkg-Root -->
+    <!-- Erstellt das Zielverzeichnis für die spätere .app -->
     <dict>
       <key>Processor</key><string>PkgRootCreator</string>
       <key>Arguments</key>
       <dict>
         <key>pkgroot</key><string>%RECIPE_CACHE_DIR%/%NAME%</string>
         <key>pkgdirs</key>
-        <dict><key>Applications</key><string>0775</string></dict>
+        <dict>
+          <key>Applications</key><string>0775</string>
+        </dict>
       </dict>
     </dict>
 
-    <!-- entpackt DMG → .app -->
+    <!-- Mountet das DMG und liest App-Name/Version aus -->
     <dict>
-      <key>Processor</key><string>Unarchiver</string>
+      <key>Processor</key><string>AppDmgVersioner</string>
       <key>Arguments</key>
       <dict>
-        <key>archive_path</key><string>%pathname%</string>
-        <key>destination_path</key><string>%pkgroot%/Applications/</string>
-        <key>purge_destination</key><true/>
+        <key>dmg_path</key><string>%pathname%</string>
       </dict>
     </dict>
 
-    <!-- ermittelt Version aus Info.plist -->
+    <!-- Kopiert die App ins pkgroot -->
     <dict>
-      <key>Processor</key><string>Versioner</string>
+      <key>Processor</key><string>Copier</string>
       <key>Arguments</key>
       <dict>
-        <key>input_plist_path</key>
-        <string>%pkgroot%/Applications/Vivaldi.app/Contents/Info.plist</string>
-        <key>plist_version_key</key><string>CFBundleShortVersionString</string>
+        <key>source_path</key>
+        <string>%app_path%</string>
+        <key>destination_path</key>
+        <string>%pkgroot%/Applications/%app_name%</string>
       </dict>
     </dict>
 
-    <!-- erstellt eigentliche .pkg -->
+    <!-- Erstellt das PKG -->
     <dict>
       <key>Processor</key><string>PkgCreator</string>
       <key>Arguments</key>
@@ -67,14 +67,15 @@
           <key>options</key><string>purge_ds_store</string>
           <key>chown</key>
           <array>
-            <dict><key>path</key><string>Applications</string>
+            <dict>
+              <key>path</key><string>Applications</string>
               <key>user</key><string>root</string>
-              <key>group</key><string>admin</string></dict>
+              <key>group</key><string>admin</string>
+            </dict>
           </array>
         </dict>
       </dict>
     </dict>
-
   </array>
 </dict>
 </plist>
