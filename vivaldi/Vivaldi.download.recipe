@@ -41,7 +41,7 @@
 		</dict>
 
 		<dict>
-			<key>Processor</key><string>EndOfCheckBlock</string>
+			<key>Processor</key><string>EndOfCheckPhase</string>
 		</dict>
 
 		<dict>
