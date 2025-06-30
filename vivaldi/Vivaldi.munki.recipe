@@ -34,9 +34,6 @@
                 <string>%pkg_path%</string>
                 <key>repo_subdirectory</key>
                 <string>%MUNKI_REPO_SUBDIR%</string>
-                <!-- HIER: %catalogs% direkt, ohne Array oder String-Tags -->
-                <key>catalogs</key>
-                %catalogs%
                 <key>pkginfo</key>
                 <dict>
                     <key>display_name</key>
