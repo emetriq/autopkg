@@ -35,9 +35,7 @@
                 <key>repo_subdirectory</key>
                 <string>%MUNKI_REPO_SUBDIR%</string>
                 <key>catalogs</key>
-                <array>
-                    <string>%catalogs%</string>
-                </array>
+                <string>%catalogs%</string>
                 <key>pkginfo</key>
                 <dict>
                     <key>display_name</key>
