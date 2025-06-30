@@ -18,71 +18,19 @@
   <string>com.github.emetriq.autopkg.vivaldi.download</string>
   <key>Process</key>
   <array>
-    <!-- Erstellt das Zielverzeichnis -->
     <dict>
       <key>Processor</key>
-      <string>PkgRootCreator</string>
+      <string>AppPkgCreator</string>
       <key>Arguments</key>
       <dict>
-        <key>pkgroot</key>
-        <string>%RECIPE_CACHE_DIR%/%NAME%</string>
-        <key>pkgdirs</key>
-        <dict>
-          <key>Applications</key>
-          <string>0775</string>
-        </dict>
-      </dict>
-    </dict>
-    <!-- Mountet das DMG und extrahiert App/Version -->
-    <dict>
-      <key>Processor</key>
-      <string>AppDmgVersioner</string>
-      <key>Arguments</key>
-      <dict>
-        <key>dmg_path</key>
+        <key>app_path</key>
         <string>%pathname%</string>
-      </dict>
-    </dict>
-    <!-- Kopiert die .app ins pkgroot -->
-    <dict>
-      <key>Processor</key>
-      <string>Copier</string>
-      <key>Arguments</key>
-      <dict>
-        <key>source_path</key>
-        <string>%app_path%</string>
+        <key>pkg_name</key>
+        <string>%NAME%-%version%</string>
+        <key>pkg_id</key>
+        <string>%PKG_ID%</string>
         <key>destination_path</key>
-        <string>%pkgroot%/Applications/%app_name%</string>
-      </dict>
-    </dict>
-    <!-- Erstellt das PKG -->
-    <dict>
-      <key>Processor</key>
-      <string>PkgCreator</string>
-      <key>Arguments</key>
-      <dict>
-        <key>pkg_request</key>
-        <dict>
-          <key>pkgname</key>
-          <string>%NAME%-%version%</string>
-          <key>pkgdir</key>
-          <string>%RECIPE_CACHE_DIR%</string>
-          <key>id</key>
-          <string>%PKG_ID%</string>
-          <key>options</key>
-          <string>purge_ds_store</string>
-          <key>chown</key>
-          <array>
-            <dict>
-              <key>path</key>
-              <string>Applications</string>
-              <key>user</key>
-              <string>root</string>
-              <key>group</key>
-              <string>admin</string>
-            </dict>
-          </array>
-        </dict>
+        <string>Applications</string>
       </dict>
     </dict>
   </array>
