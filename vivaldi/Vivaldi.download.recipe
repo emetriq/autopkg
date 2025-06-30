@@ -1,26 +1,66 @@
-Identifier: com.github.emetriq.autopkg.Vivaldi.download
-Description: Lädt die aktuelle stabile Universal-DMG von Vivaldi für macOS herunter.
-Input:
-  NAME: Vivaldi
-  DOWNLOAD_PAGE_URL: https://vivaldi.com/download/
-  DOWNLOAD_REGEX: 'https:\/\/downloads\.vivaldi\.com\/stable\/Vivaldi[0-9\.]+universal\.dmg'
-Process:
-  - Processor: URLTextSearcher
-    Arguments:
-      url: '%DOWNLOAD_PAGE_URL%'
-      re_pattern: '%DOWNLOAD_REGEX%'
-      result_output_var_name: download_url
-  - Processor: URLDownloader
-    Arguments:
-      url: '%download_url%'
-      filename: '%NAME%.dmg'
-  - Processor: EndOfCheckBlock
-  - Processor: AppDmgVersioner
-    Arguments:
-      dmg_path: '%pathname%'
-      app_path: 'Vivaldi.app'
-  - Processor: CodeSignatureVerifier
-    Arguments:
-      input_path: '%pathname%/Vivaldi.app'
-      requirement: 'identifier "com.vivaldi.Vivaldi" and certificate leaf[subject.OU] = "4XF3XNRN6Y"'
-MinimumVersion: 2.3
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Lädt die aktuelle stabile Universal-DMG von Vivaldi für macOS herunter.</string>
+
+	<key>Identifier</key>
+	<string>com.github.emetriq.autopkg.Vivaldi.download</string>
+
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+
+	<key>Input</key>
+	<dict>
+		<key>NAME</key><string>Vivaldi</string>
+		<key>DOWNLOAD_PAGE_URL</key><string>https://vivaldi.com/download/</string>
+		<key>DOWNLOAD_REGEX</key><string>https:\/\/downloads\.vivaldi\.com\/stable\/Vivaldi[0-9\.]+universal\.dmg</string>
+	</dict>
+
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key><string>URLTextSearcher</string>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key><string>%DOWNLOAD_PAGE_URL%</string>
+				<key>re_pattern</key><string>%DOWNLOAD_REGEX%</string>
+				<key>result_output_var_name</key><string>download_url</string>
+			</dict>
+		</dict>
+
+		<dict>
+			<key>Processor</key><string>URLDownloader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key><string>%download_url%</string>
+				<key>filename</key><string>%NAME%.dmg</string>
+			</dict>
+		</dict>
+
+		<dict>
+			<key>Processor</key><string>EndOfCheckBlock</string>
+		</dict>
+
+		<dict>
+			<key>Processor</key><string>AppDmgVersioner</string>
+			<key>Arguments</key>
+			<dict>
+				<key>dmg_path</key><string>%pathname%</string>
+				<key>app_path</key><string>Vivaldi.app</string>
+			</dict>
+		</dict>
+
+		<dict>
+			<key>Processor</key><string>CodeSignatureVerifier</string>
+			<key>Arguments</key>
+			<dict>
+				<key>input_path</key><string>%pathname%/Vivaldi.app</string>
+				<key>requirement</key><string>identifier "com.vivaldi.Vivaldi" and certificate leaf[subject.OU] = "4XF3XNRN6Y"</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,12 +1,36 @@
-Vivaldi.pkg.recipeIdentifier: com.github.emetriq.autopkg.Vivaldi.pkg
-ParentRecipe: com.github.emetriq.autopkg.Vivaldi.download
-Description: Baut aus der App ein signiertes macOS-Installer-PKG.
-Input:
-  NAME: Vivaldi
-Process:
-  - Processor: AppPkgCreator
-    Arguments:
-      app_path: '%pathname%/Vivaldi.app'
-      version: '%version%'
-      pkg_request: 'relocatable'
-MinimumVersion: 2.3
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Baut aus der App ein signiertes macOS-Installer-PKG.</string>
+
+	<key>Identifier</key>
+	<string>com.github.emetriq.autopkg.Vivaldi.pkg</string>
+
+	<key>ParentRecipe</key>
+	<string>com.github.emetriq.autopkg.Vivaldi.download</string>
+
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+
+	<key>Input</key>
+	<dict>
+		<key>NAME</key><string>Vivaldi</string>
+	</dict>
+
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key><string>AppPkgCreator</string>
+			<key>Arguments</key>
+			<dict>
+				<key>app_path</key><string>%pathname%/Vivaldi.app</string>
+				<key>version</key><string>%version%</string>
+				<key>pkg_request</key><string>relocatable</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

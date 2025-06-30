@@ -1,13 +1,35 @@
-Vivaldi.munki.recipeIdentifier: com.github.emetriq.autopkg.Vivaldi.munki
-ParentRecipe: com.github.emetriq.autopkg.Vivaldi.pkg
-Description: Importiert Vivaldi in das Munki-Repository.
-Input:
-  NAME: Vivaldi
-  MUNKI_REPO_SUBDIR: 'apps/browsers'
-  catalogs: 'testing'
-Process:
-  - Processor: MunkiImporter
-    Arguments:
-      pkg_path: '%pkg_path%'
-      repo_subdirectory: '%MUNKI_REPO_SUBDIR%'
-      catalogs: '%catalogs%'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Importiert Vivaldi in das Munki-Repository.</string>
+
+	<key>Identifier</key>
+	<string>com.github.emetriq.autopkg.Vivaldi.munki</string>
+
+	<key>ParentRecipe</key>
+	<string>com.github.emetriq.autopkg.Vivaldi.pkg</string>
+
+	<key>Input</key>
+	<dict>
+		<key>NAME</key><string>Vivaldi</string>
+		<key>MUNKI_REPO_SUBDIR</key><string>apps/browsers</string>
+		<key>catalogs</key><string>testing</string>
+	</dict>
+
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key><string>MunkiImporter</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key><string>%pkg_path%</string>
+				<key>repo_subdirectory</key><string>%MUNKI_REPO_SUBDIR%</string>
+				<key>catalogs</key><string>%catalogs%</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

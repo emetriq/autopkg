@@ -1,9 +1,31 @@
-Vivaldi.install.recipeIdentifier: com.github.emetriq.autopkg.Vivaldi.install
-ParentRecipe: com.github.emetriq.autopkg.Vivaldi.pkg
-Description: Installiert das erzeugte PKG lokal (z. B. für Testläufe oder CI-Jobs).
-Input:
-  NAME: Vivaldi
-Process:
-  - Processor: PkgInstaller
-    Arguments:
-      pkg_path: '%pkg_path%'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+        "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Installiert das erzeugte PKG lokal (z. B. für Testläufe oder CI-Jobs).</string>
+
+	<key>Identifier</key>
+	<string>com.github.emetriq.autopkg.Vivaldi.install</string>
+
+	<key>ParentRecipe</key>
+	<string>com.github.emetriq.autopkg.Vivaldi.pkg</string>
+
+	<key>Input</key>
+	<dict>
+		<key>NAME</key><string>Vivaldi</string>
+	</dict>
+
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key><string>PkgInstaller</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key><string>%pkg_path%</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
