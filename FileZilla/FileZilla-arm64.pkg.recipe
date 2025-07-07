@@ -1,59 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>Description</key>
-	<string>Paketiert FileZilla (Apple Silicon) als .pkg.</string>
+    <key>Description</key>
+    <string>Paketiert FileZilla (Apple Silicon) als .pkg.</string>
 
-	<key>Identifier</key>
-	<string>com.github.emetriq.autopkg.FileZilla-arm64.pkg</string>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.FileZilla-arm64.pkg</string>
 
-	<!-- leerer Input-Block für make-override -->
-	<key>Input</key>
-	<dict/>
+    <key>Input</key>
+    <dict/>
 
-	<key>ParentRecipe</key>
-	<string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
+    <key>ParentRecipe</key>
+    <string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
 
-	<key>Process</key>
-	<array>
-		<!-- Paket-Root anlegen -->
-		<dict>
-			<key>Processor</key>  <string>PkgRootCreator</string>
-			<key>Arguments</key>
-			<dict>
-				<key>pkgroot</key> <string>%RECIPE_CACHE_DIR%/pkgroot</string>
-				<key>pkgdirs</key>
-				<dict>
-					<key>Applications</key> <string>0775</string>
-				</dict>
-			</dict>
-		</dict>
+    <key>Process</key>
+    <array>
+        <!-- PkgRootCreator -->
+        <dict>
+            <key>Processor</key>  <string>PkgRootCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkgroot</key> <string>%RECIPE_CACHE_DIR%/pkgroot</string>
+                <key>pkgdirs</key>
+                <dict>
+                    <key>Applications</key> <string>0775</string>
+                </dict>
+            </dict>
+        </dict>
 
-		<!-- App hineinkopieren -->
-		<dict>
-			<key>Processor</key>  <string>Copier</string>
-			<key>Arguments</key>
-			<dict>
-				<key>source_path</key>
-				<string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
-				<key>destination_path</key>
-				<string>%pkgroot%/Applications/FileZilla.app</string>
-			</dict>
-		</dict>
+        <!-- Copier -->
+        <dict>
+            <key>Processor</key>  <string>Copier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>source_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
+                <key>destination_path</key>
+                <string>%pkgroot%/Applications/FileZilla.app</string>
+            </dict>
+        </dict>
 
-		<!-- Paket erzeugen – jetzt mit einzelnen Keys -->
-		<dict>
-			<key>Processor</key>  <string>PkgCreator</string>
-			<key>Arguments</key>
-			<dict>
-				<key>pkg_root</key> <string>%pkgroot%</string>
-				<key>pkgdir</key>   <string>%RECIPE_CACHE_DIR%</string>
-				<key>pkgname</key>  <string>FileZilla-%version%-%ARCHITECTURE%.pkg</string>
-				<key>id</key>       <string>org.filezilla-project.filezilla</string>
-				<key>version</key>  <string>%version%</string>
-				<key>pkg_format</key><string>flat</string>
-			</dict>
-		</dict>
-	</array>
+        <!-- *** Neuer PkgCreator-Block *** -->
+        <dict>
+            <key>Processor</key>  <string>PkgCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_root</key> <string>%pkgroot%</string>
+                <key>pkgdir</key>   <string>%RECIPE_CACHE_DIR%</string>
+                <key>pkg_request</key>
+                <string>
+                    pkgname FileZilla-%version%-%ARCHITECTURE%.pkg
+                    id org.filezilla-project.filezilla
+                    version %version%
+                </string>
+            </dict>
+        </dict>
+    </array>
 </dict>
 </plist>
