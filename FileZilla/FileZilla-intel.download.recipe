@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.FileZilla-intel.download</string>
+    <key>Description</key>
+    <string>Downloads the latest FileZilla.app (Intel) from filezilla-project.org.</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>FileZilla</string>
+        <key>DOWNLOAD_URL</key>
+        <string>https://download.filezilla-project.org/client/FileZilla_latest_macosx-x86.app.tar.xz</string>
+    </dict>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>%DOWNLOAD_URL%</string>
+                <key>filename</key>
+                <string>%NAME%.tar.xz</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>TarExtractor</string>
+            <key>Arguments</key>
+            <dict>
+                <key>archive_path</key>
+                <string>%pathname%</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>AppDmgVersioner</string>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
