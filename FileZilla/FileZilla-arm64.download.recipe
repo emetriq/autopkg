@@ -1,78 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>Description</key>
-	<string>Lädt die aktuelle Apple-Silicon-Version von FileZilla und prüft Signatur/Version.</string>
+    <key>Description</key>
+    <string>Lädt die aktuelle Apple-Silicon-Version von FileZilla und prüft Signatur/Version.</string>
 
-	<key>Identifier</key>
-	<string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
 
-	<key>Input</key>
-	<dict>
-		<key>NAME</key>          <string>FileZilla</string>
-		<key>ARCHITECTURE</key>  <string>arm64</string>
-		<key>DOWNLOAD_PAGE</key> <string>https://filezilla-project.org/download.php?show_all=1</string>
-		<!-- User-Agent nötig, sonst blockt die Seite den Scraper -->
-		<key>USER_AGENT</key>
-		<string>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko)</string>
-		<!-- Regex zieht direkten *.tar.xz-Link z. B. https://dl2.cdn.filezilla-project.org/client/FileZilla_3.69.1_macos_arm64.app.tar.xz -->
-		<key>RE_PATTERN</key>
-		<string>(https://dl\d?\.cdn\.filezilla-project\.org/client/FileZilla_(?P&lt;version&gt;[0-9\.]+)_macos_%ARCHITECTURE%\.app\.tar\.xz)</string>
-	</dict>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>          <string>FileZilla</string>
+        <key>ARCHITECTURE</key>  <string>arm64</string>
+        <key>DOWNLOAD_PAGE</key> <string>https://filezilla-project.org/download.php?show_all=1</string>
+        <key>USER_AGENT</key>
+        <string>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko)</string>
+        <!-- Regex passt für tar.xz, tar.bz2, tar.gz -->
+        <key>RE_PATTERN</key>
+        <string>(https://dl\d?\.cdn\.filezilla-project\.org/client/FileZilla_(?P&lt;version&gt;[0-9\.]+)_macos_%ARCHITECTURE%\.app\.tar\.(?:xz|bz2|gz))</string>
+    </dict>
 
-	<key>Process</key>
-	<array>
-		<dict>
-			<key>Processor</key>  <string>URLTextSearcher</string>
-			<key>Arguments</key>
-			<dict>
-				<key>url</key>            <string>%DOWNLOAD_PAGE%</string>
-				<key>request_headers</key><string>User-Agent: %USER_AGENT%</string>
-				<key>re_pattern</key>     <string>%RE_PATTERN%</string>
-				<key>result_output_var_name</key><string>download_url</string>
-			</dict>
-		</dict>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>  <string>URLTextSearcher</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>            <string>%DOWNLOAD_PAGE%</string>
+                <key>request_headers</key><string>User-Agent: %USER_AGENT%</string>
+                <key>re_pattern</key>     <string>%RE_PATTERN%</string>
+                <key>result_output_var_name</key><string>download_url</string>
+            </dict>
+        </dict>
 
-		<dict>
-			<key>Processor</key>  <string>URLDownloader</string>
-			<key>Arguments</key>
-			<dict>
-				<key>url</key>      <string>%download_url%</string>
-				<key>filename</key> <string>%NAME%-%version%-%ARCHITECTURE%.tar.xz</string>
-			</dict>
-		</dict>
+        <dict>
+            <key>Processor</key>  <string>URLDownloader</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>      <string>%download_url%</string>
+                <key>filename</key> <string>%NAME%-%version%-%ARCHITECTURE%.tar.xz</string>
+            </dict>
+        </dict>
 
-		<dict> <key>Processor</key> <string>EndOfCheckPhase</string> </dict>
+        <dict> <key>Processor</key> <string>EndOfCheckPhase</string> </dict>
 
-		<dict>
-			<key>Processor</key>  <string>Unarchiver</string>
-			<key>Arguments</key>
-			<dict>
-				<key>archive_path</key>     <string>%pathname%</string>
-				<key>destination_path</key> <string>%RECIPE_CACHE_DIR%/%NAME%</string>
-				<key>purge_destination</key><true/>
-			</dict>
-		</dict>
+        <dict>
+            <key>Processor</key>  <string>Unarchiver</string>
+            <key>Arguments</key>
+            <dict>
+                <key>archive_path</key>     <string>%pathname%</string>
+                <key>destination_path</key> <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+                <key>purge_destination</key><true/>
+            </dict>
+        </dict>
 
-		<dict>
-			<key>Processor</key>  <string>CodeSignatureVerifier</string>
-			<key>Arguments</key>
-			<dict>
-				<key>input_path</key>  <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
-				<key>requirement</key>
-				<string>identifier "org.filezilla-project.filezilla" and anchor apple generic and certificate leaf[subject.OU] = "5VPGKXL75N"</string>
-			</dict>
-		</dict>
+        <dict>
+            <key>Processor</key>  <string>CodeSignatureVerifier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>  <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
+                <key>requirement</key>
+                <string>identifier "org.filezilla-project.filezilla" and anchor apple generic and certificate leaf[subject.OU] = "5VPGKXL75N"</string>
+            </dict>
+        </dict>
 
-		<dict>
-			<key>Processor</key>  <string>Versioner</string>
-			<key>Arguments</key>
-			<dict>
-				<key>input_plist_path</key>
-				<string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app/Contents/Info.plist</string>
-				<key>plist_version_key</key><string>CFBundleShortVersionString</string>
-			</dict>
-		</dict>
-	</array>
+        <dict>
+            <key>Processor</key>  <string>Versioner</string>
+            <key>Arguments</key>
+            <dict>
+                <key>input_plist_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app/Contents/Info.plist</string>
+                <key>plist_version_key</key><string>CFBundleShortVersionString</string>
+            </dict>
+        </dict>
+    </array>
 </dict>
 </plist>

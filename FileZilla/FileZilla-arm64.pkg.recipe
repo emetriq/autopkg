@@ -15,7 +15,6 @@
 
     <key>Process</key>
     <array>
-        <!-- PkgRootCreator -->
         <dict>
             <key>Processor</key>  <string>PkgRootCreator</string>
             <key>Arguments</key>
@@ -28,7 +27,6 @@
             </dict>
         </dict>
 
-        <!-- Copier -->
         <dict>
             <key>Processor</key>  <string>Copier</string>
             <key>Arguments</key>
@@ -40,7 +38,6 @@
             </dict>
         </dict>
 
-        <!-- *** Neuer PkgCreator-Block *** -->
         <dict>
             <key>Processor</key>  <string>PkgCreator</string>
             <key>Arguments</key>
