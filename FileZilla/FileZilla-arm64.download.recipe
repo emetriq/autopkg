@@ -42,7 +42,7 @@
             <string>PlistReader</string>
             <key>Arguments</key>
             <dict>
-                <key>plist_path</key>
+                <key>info_path</key>
                 <string>%RECIPE_CACHE_DIR%/FileZilla/FileZilla.app/Contents/Info.plist</string>
                 <key>plist_keys</key>
                 <array>
