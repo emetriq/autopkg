@@ -11,7 +11,7 @@
         <key>NAME</key>
         <string>FileZilla</string>
         <key>DOWNLOAD_URL</key>
-        <string>https://download.filezilla-project.org/client/FileZilla_latest_macosx-x86.app.tar.xz</string>
+        <string>https://download.filezilla-project.org/client/FileZilla_latest_macosx-x86.app.tar.bz2</string>
     </dict>
     <key>Process</key>
     <array>
@@ -23,12 +23,12 @@
                 <key>url</key>
                 <string>%DOWNLOAD_URL%</string>
                 <key>filename</key>
-                <string>%NAME%.tar.xz</string>
+                <string>%NAME%.tar.bz2</string>
             </dict>
         </dict>
         <dict>
             <key>Processor</key>
-            <string>TarExtractor</string>
+            <string>Unarchiver</string>
             <key>Arguments</key>
             <dict>
                 <key>archive_path</key>
