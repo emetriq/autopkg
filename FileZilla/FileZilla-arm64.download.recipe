@@ -4,15 +4,16 @@
 <dict>
     <key>Identifier</key>
     <string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
+
     <key>Description</key>
-    <string>Downloads the latest FileZilla.app (Universal/arm64) from filezilla-project.org.</string>
+    <string>Downloads the latest FileZilla.app (Intel) from filezilla-project.org.</string>
+
     <key>Input</key>
     <dict>
         <key>NAME</key>
         <string>FileZilla</string>
-        <key>DOWNLOAD_URL</key>
-        <string>https://download.filezilla-project.org/client/FileZilla_latest_macosx-arm64.app.tar.bz2</string>
     </dict>
+
     <key>Process</key>
     <array>
         <dict>
@@ -21,11 +22,12 @@
             <key>Arguments</key>
             <dict>
                 <key>url</key>
-                <string>%DOWNLOAD_URL%</string>
+                <string>https://download.filezilla-project.org/client/FileZilla_latest_macosx-arm64.app.tar.bz2</string>
                 <key>filename</key>
                 <string>%NAME%.tar.bz2</string>
             </dict>
         </dict>
+
         <dict>
             <key>Processor</key>
             <string>Unarchiver</string>
@@ -35,15 +37,18 @@
                 <string>%pathname%</string>
                 <key>destination_path</key>
                 <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+                <key>purge_destination</key>
+                <true/>
             </dict>
         </dict>
+
         <dict>
             <key>Processor</key>
             <string>PlistReader</string>
             <key>Arguments</key>
             <dict>
                 <key>info_path</key>
-                <string>%RECIPE_CACHE_DIR%/FileZilla/FileZilla.app/Contents/Info.plist</string>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app/Contents/Info.plist</string>
                 <key>plist_keys</key>
                 <array>
                     <string>CFBundleShortVersionString</string>
