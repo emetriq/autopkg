@@ -2,10 +2,14 @@
 <plist version="1.0">
 <dict>
 	<key>Description</key>
-	<string>Paketiert FileZilla (arm64) als .pkg für Verteilung.</string>
+	<string>Paketiert FileZilla (Apple Silicon) als .pkg.</string>
 
 	<key>Identifier</key>
 	<string>com.github.emetriq.autopkg.FileZilla-arm64.pkg</string>
+
+	<!-- Eingefügter Platzhalter -->
+	<key>Input</key>
+	<dict/>
 
 	<key>ParentRecipe</key>
 	<string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>

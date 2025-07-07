@@ -7,6 +7,10 @@
 	<key>Identifier</key>
 	<string>com.github.emetriq.autopkg.FileZilla-intel.install</string>
 
+	<!-- Eingefügter Platzhalter -->
+	<key>Input</key>
+	<dict/>
+
 	<key>ParentRecipe</key>
 	<string>com.github.emetriq.autopkg.FileZilla-intel.download</string>
 

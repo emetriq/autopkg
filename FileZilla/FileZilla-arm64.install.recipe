@@ -2,17 +2,20 @@
 <plist version="1.0">
 <dict>
 	<key>Description</key>
-	<string>Lädt FileZilla (arm64) &amp; installiert es direkt nach /Applications.</string>
+	<string>Lädt FileZilla (Apple Silicon) &amp; installiert es nach /Applications.</string>
 
 	<key>Identifier</key>
 	<string>com.github.emetriq.autopkg.FileZilla-arm64.install</string>
+
+	<!-- Eingefügter Platzhalter -->
+	<key>Input</key>
+	<dict/>
 
 	<key>ParentRecipe</key>
 	<string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
 
 	<key>Process</key>
 	<array>
-		<!-- Erzeuge kurzzeitig ein DMG – InstallFromDMG erwartet eines -->
 		<dict>
 			<key>Processor</key>  <string>DmgCreator</string>
 			<key>Arguments</key>
