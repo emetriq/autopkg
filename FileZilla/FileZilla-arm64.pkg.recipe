@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Identifier</key>
-    <string>com.github.emetriq.autopkg.FileZilla-arm64.pkg</string>
-    <key>ParentRecipe</key>
-    <string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
-    <key>Description</key>
-    <string>Erstellt ein PKG für FileZilla.app (arm64).</string>
-    <key>Input</key>
-    <dict>
-        <key>pkg_request</key>
-        <dict>
-            <key>payload</key>
-            <array>
-                <dict>
-                    <key>source</key>
-                    <string>%RECIPE_CACHE_DIR%/FileZilla/FileZilla.app</string>
-                    <key>destination</key>
-                    <string>/Applications/FileZilla.app</string>
-                </dict>
-            </array>
-        </dict>
-    </dict>
-    <key>Process</key>
-    <array>
-        <dict>
-            <key>Processor</key>
-            <string>PkgCreator</string>
-            <key>Arguments</key>
-            <dict>
-                <key>pkg_request</key>
-                <string>%pkg_request%</string>
-                <key>pkg_name</key>
-                <string>FileZilla-arm64.pkg</string>
-                <key>version</key>
-                <string>%version%</string>
-            </dict>
-        </dict>
-    </array>
+	<key>Description</key>
+	<string>Paketiert FileZilla (arm64) als .pkg für Verteilung.</string>
+
+	<key>Identifier</key>
+	<string>com.github.emetriq.autopkg.FileZilla-arm64.pkg</string>
+
+	<key>ParentRecipe</key>
+	<string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
+
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>  <string>PkgRootCreator</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkgroot</key> <string>%RECIPE_CACHE_DIR%/pkgroot</string>
+				<key>pkgdirs</key>
+				<dict>
+					<key>Applications</key> <string>0775</string>
+				</dict>
+			</dict>
+		</dict>
+
+		<dict>
+			<key>Processor</key>  <string>CopyPath</string>
+			<key>Arguments</key>
+			<dict>
+				<key>source_path</key>      <string>%RECIPE_CACHE_DIR%/FileZilla/FileZilla.app</string>
+				<key>destination_path</key><string>%pkgroot%/Applications/FileZilla.app</string>
+			</dict>
+		</dict>
+
+		<dict>
+			<key>Processor</key>  <string>PkgCreator</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_request</key>
+				<string>pkgname FileZilla-%version%-%ARCHITECTURE%.pkg</string>
+				<key>pkgdir</key>   <string>%RECIPE_CACHE_DIR%</string>
+				<key>id</key>       <string>org.filezilla-project.filezilla</string>
+				<key>version</key>  <string>%version%</string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
