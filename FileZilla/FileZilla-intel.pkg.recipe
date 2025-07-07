@@ -7,7 +7,7 @@
 	<key>Identifier</key>
 	<string>com.github.emetriq.autopkg.FileZilla-intel.pkg</string>
 
-	<!-- Eingefügter Platzhalter -->
+	<!-- leerer Input-Block -->
 	<key>Input</key>
 	<dict/>
 
@@ -16,6 +16,7 @@
 
 	<key>Process</key>
 	<array>
+		<!-- Paket-Root -->
 		<dict>
 			<key>Processor</key>  <string>PkgRootCreator</string>
 			<key>Arguments</key>
@@ -28,15 +29,19 @@
 			</dict>
 		</dict>
 
+		<!-- APP kopieren -->
 		<dict>
-			<key>Processor</key>  <string>CopyPath</string>
+			<key>Processor</key>  <string>Copier</string>
 			<key>Arguments</key>
 			<dict>
-				<key>source_path</key>      <string>%RECIPE_CACHE_DIR%/FileZilla/FileZilla.app</string>
-				<key>destination_path</key><string>%pkgroot%/Applications/FileZilla.app</string>
+				<key>source_path</key>
+				<string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
+				<key>destination_path</key>
+				<string>%pkgroot%/Applications/FileZilla.app</string>
 			</dict>
 		</dict>
 
+		<!-- .pkg erzeugen -->
 		<dict>
 			<key>Processor</key>  <string>PkgCreator</string>
 			<key>Arguments</key>
