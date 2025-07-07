@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>Identifier</key>
-    <string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
+    <string>local.munki.FileZilla-arm64.download</string>
 
     <key>Description</key>
-    <string>Downloads the latest FileZilla.app (ARM64) from filezilla-project.org.</string>
+    <string>Downloads the latest FileZilla.app for Apple Silicon (ARM64)
+from filezilla-project.org and exposes %version%.</string>
 
     <key>Input</key>
     <dict>
@@ -16,19 +18,45 @@
 
     <key>Process</key>
     <array>
+
+        <!-- 1) Link aus der „show_all“-Seite parsen -->
+        <dict>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>https://filezilla-project.org/download.php?show_all=1</string>
+                <key>re_pattern</key>
+                <string>
+                    <![CDATA[
+                    href="(?P<url>https://[^"]*
+                          (?P<filename>FileZilla_(?P<version>[0-9\.]+)_macosx-arm64\.app\.tar\.bz2[^"]*))
+                    ]]>
+                </string>
+            </dict>
+        </dict>
+
+        <!-- 2) Archiv herunterladen -->
         <dict>
             <key>Processor</key>
             <string>URLDownloader</string>
             <key>Arguments</key>
             <dict>
                 <key>url</key>
-                <string>https://download.filezilla-project.org/client/FileZilla_latest_macosx-arm64.app.tar.bz2</string>
+                <string>%url%</string>
                 <key>filename</key>
-                <string>%NAME%.tar.bz2</string>
+                <string>%filename%</string>
             </dict>
         </dict>
 
-        
+        <!-- 3) Check-Phase sauber beenden -->
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+
+        <!-- 4) Entpacken (explizit tar_bzip2) -->
         <dict>
             <key>Processor</key>
             <string>Unarchiver</string>
@@ -45,6 +73,7 @@
             </dict>
         </dict>
 
+        <!-- 5) Version aus Info.plist auslesen -->
         <dict>
             <key>Processor</key>
             <string>PlistReader</string>
@@ -58,6 +87,7 @@
                 </array>
             </dict>
         </dict>
+
     </array>
 </dict>
 </plist>
