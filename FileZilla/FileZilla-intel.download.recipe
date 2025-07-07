@@ -28,6 +28,7 @@
             </dict>
         </dict>
 
+        
         <dict>
             <key>Processor</key>
             <string>Unarchiver</string>
@@ -39,6 +40,8 @@
                 <string>%RECIPE_CACHE_DIR%/%NAME%</string>
                 <key>purge_destination</key>
                 <true/>
+                <key>archive_format</key>
+                <string>tar_bzip2</string>
             </dict>
         </dict>
 

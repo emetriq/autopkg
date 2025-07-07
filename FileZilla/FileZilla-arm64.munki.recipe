@@ -31,7 +31,7 @@
                     <key>display_name</key>
                     <string>FileZilla</string>
                     <key>description</key>
-                    <string>FileZilla FTP Client für macOS (Universal/arm64)</string>
+                    <string>FileZilla FTP Client für macOS (arm64)</string>
                     <key>minimum_os_version</key>
                     <string>11.0</string>
                     <key>developer</key>

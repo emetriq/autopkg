@@ -7,7 +7,7 @@
     <key>ParentRecipe</key>
     <string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
     <key>Description</key>
-    <string>Erstellt ein PKG für FileZilla.app (Universal/arm64).</string>
+    <string>Erstellt ein PKG für FileZilla.app (arm64).</string>
     <key>Input</key>
     <dict>
         <key>pkg_request</key>
