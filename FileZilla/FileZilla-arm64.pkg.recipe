@@ -7,7 +7,7 @@
 	<key>Identifier</key>
 	<string>com.github.emetriq.autopkg.FileZilla-arm64.pkg</string>
 
-	<!-- leerer Input-Block, damit make-override funktioniert -->
+	<!-- leerer Input-Block für make-override -->
 	<key>Input</key>
 	<dict/>
 
@@ -16,7 +16,7 @@
 
 	<key>Process</key>
 	<array>
-		<!-- Paket-Root erzeugen -->
+		<!-- Paket-Root anlegen -->
 		<dict>
 			<key>Processor</key>  <string>PkgRootCreator</string>
 			<key>Arguments</key>
@@ -29,7 +29,7 @@
 			</dict>
 		</dict>
 
-		<!-- APP in das Paket-Root kopieren (jetzt mit Copier) -->
+		<!-- App hineinkopieren -->
 		<dict>
 			<key>Processor</key>  <string>Copier</string>
 			<key>Arguments</key>
@@ -41,16 +41,17 @@
 			</dict>
 		</dict>
 
-		<!-- .pkg bauen -->
+		<!-- Paket erzeugen – jetzt mit einzelnen Keys -->
 		<dict>
 			<key>Processor</key>  <string>PkgCreator</string>
 			<key>Arguments</key>
 			<dict>
-				<key>pkg_request</key>
-				<string>pkgname FileZilla-%version%-%ARCHITECTURE%.pkg</string>
+				<key>pkg_root</key> <string>%pkgroot%</string>
 				<key>pkgdir</key>   <string>%RECIPE_CACHE_DIR%</string>
+				<key>pkgname</key>  <string>FileZilla-%version%-%ARCHITECTURE%.pkg</string>
 				<key>id</key>       <string>org.filezilla-project.filezilla</string>
 				<key>version</key>  <string>%version%</string>
+				<key>pkg_format</key><string>flat</string>
 			</dict>
 		</dict>
 	</array>

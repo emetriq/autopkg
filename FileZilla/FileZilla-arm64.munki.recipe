@@ -7,7 +7,6 @@
 	<key>Identifier</key>
 	<string>com.github.emetriq.autopkg.FileZilla-arm64.munki</string>
 
-	<!-- Eingefügter Platzhalter -->
 	<key>Input</key>
 	<dict/>
 
@@ -23,9 +22,14 @@
 				<key>pkg_path</key>          <string>%pkg_path%</string>
 				<key>repo_subdirectory</key> <string>apps/FileZilla</string>
 				<key>catalogs</key>          <array><string>testing</string></array>
-				<key>description</key>       <string>FileZilla ist ein freier FTP-, FTPS- und SFTP-Client.</string>
-				<key>display_name</key>      <string>FileZilla</string>
-				<key>unattended_install</key><true/>
+
+				<!-- Richtiger Container für zusätzliche PKG-Info -->
+				<key>pkginfo</key>
+				<dict>
+					<key>description</key>       <string>FileZilla ist ein freier FTP-, FTPS- und SFTP-Client.</string>
+					<key>display_name</key>      <string>FileZilla</string>
+					<key>unattended_install</key><true/>
+				</dict>
 			</dict>
 		</dict>
 	</array>
