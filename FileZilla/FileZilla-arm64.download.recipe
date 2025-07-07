@@ -7,8 +7,8 @@
     <string>local.munki.FileZilla-arm64.download</string>
 
     <key>Description</key>
-    <string>Downloads the latest FileZilla.app for Apple Silicon (ARM64)
-from filezilla-project.org and exposes %version%.</string>
+    <string>Downloads the latest FileZilla.app for Apple Silicon (ARM64) and
+exposes %version%.</string>
 
     <key>Input</key>
     <dict>
@@ -19,7 +19,7 @@ from filezilla-project.org and exposes %version%.</string>
     <key>Process</key>
     <array>
 
-        <!-- 1) Link aus der „show_all“-Seite parsen -->
+        <!-- 1) Direkt-URL aus der Downloadseite herausparsen -->
         <dict>
             <key>Processor</key>
             <string>URLTextSearcher</string>
@@ -27,13 +27,11 @@ from filezilla-project.org and exposes %version%.</string>
             <dict>
                 <key>url</key>
                 <string>https://filezilla-project.org/download.php?show_all=1</string>
+                <!-- erster Capture-Group-Treffer landet in %MATCH%                -->
                 <key>re_pattern</key>
-                <string>
-                    <![CDATA[
-                    href="(?P<url>https://[^"]*
-                          (?P<filename>FileZilla_(?P<version>[0-9\.]+)_macosx-arm64\.app\.tar\.bz2[^"]*))
-                    ]]>
-                </string>
+                <string>(https?://[^"&apos;]+FileZilla_[0-9\.]+_macosx-arm64\.app\.tar\.bz2)</string>
+                <key>result_output_var_name</key>
+                <string>DOWNLOAD_URL</string>
             </dict>
         </dict>
 
@@ -44,19 +42,19 @@ from filezilla-project.org and exposes %version%.</string>
             <key>Arguments</key>
             <dict>
                 <key>url</key>
-                <string>%url%</string>
+                <string>%DOWNLOAD_URL%</string>
                 <key>filename</key>
-                <string>%filename%</string>
+                <string>%NAME%-arm64.tar.bz2</string>
             </dict>
         </dict>
 
-        <!-- 3) Check-Phase sauber beenden -->
+        <!-- 3) Check-Phase beenden (macht -c durchlaufbar) -->
         <dict>
             <key>Processor</key>
             <string>EndOfCheckPhase</string>
         </dict>
 
-        <!-- 4) Entpacken (explizit tar_bzip2) -->
+        <!-- 4) Entpacken – explizit tar_bzip2 -->
         <dict>
             <key>Processor</key>
             <string>Unarchiver</string>
