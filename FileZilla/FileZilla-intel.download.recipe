@@ -39,7 +39,7 @@
         </dict>
         <dict>
             <key>Processor</key>
-            <string>AppDmgVersioner</string>
+            <string>Versioner</string>
             <key>Arguments</key>
             <dict>
                 <key>input_path</key>
