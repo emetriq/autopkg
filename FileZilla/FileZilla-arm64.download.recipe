@@ -23,7 +23,7 @@
                 <key>url</key>
                 <string>https://filezilla-project.org/download.php?show_all=1</string>
                 <key>re_pattern</key>
-                <string>https://download\.filezilla-project\.org/client/FileZilla_[0-9\.]+_macos-arm64\.app\.tar\.bz2</string>
+                <string>https://dl\d*\.cdn\.filezilla-project\.org/client/FileZilla_[0-9\.]+_macos-arm64\.app\.tar\.bz2\?[^"]+</string>
             </dict>
         </dict>
         <dict>
