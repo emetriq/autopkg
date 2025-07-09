@@ -1,41 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Lädt FileZilla (Intel) &amp; installiert es nach /Applications.</string>
-
+    <string>Installs the latest version of FileZilla for macOS Intel x86.</string>
     <key>Identifier</key>
     <string>com.github.emetriq.autopkg.FileZilla-intel.install</string>
-
     <key>Input</key>
-    <dict/>
-
+    <dict>
+        <key>NAME</key>
+        <string>FileZilla</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>1.0.0</string>
     <key>ParentRecipe</key>
     <string>com.github.emetriq.autopkg.FileZilla-intel.download</string>
-
     <key>Process</key>
     <array>
         <dict>
-            <key>Processor</key>  <string>DmgCreator</string>
+            <key>Processor</key>
+            <string>Copier</string>
             <key>Arguments</key>
             <dict>
-                <key>source_path</key>      <string>%RECIPE_CACHE_DIR%/FileZilla</string>
-                <key>dmg_path</key>         <string>%RECIPE_CACHE_DIR%/%NAME%-%version%.dmg</string>
-            </dict>
-        </dict>
-
-        <dict>
-            <key>Processor</key>  <string>InstallFromDMG</string>
-            <key>Arguments</key>
-            <dict>
-                <key>dmg_path</key> <string>%dmg_path%</string>
-                <key>items_to_copy</key>
-                <array>
-                    <dict>
-                        <key>source_item</key>      <string>FileZilla.app</string>
-                        <key>destination_path</key><string>/Applications/</string>
-                    </dict>
-                </array>
+                <key>source_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
+                <key>destination_path</key>
+                <string>/Applications/FileZilla.app</string>
+                <key>overwrite</key>
+                <true/>
             </dict>
         </dict>
     </array>

@@ -1,74 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Lädt die aktuelle Intel-Version von FileZilla und prüft Signatur/Version.</string>
-
+    <string>Downloads the latest version of FileZilla for macOS Intel x86.</string>
     <key>Identifier</key>
     <string>com.github.emetriq.autopkg.FileZilla-intel.download</string>
-
     <key>Input</key>
     <dict>
-        <key>NAME</key>          <string>FileZilla</string>
-        <key>ARCHITECTURE</key>  <string>x86_64</string>
-        <key>DOWNLOAD_PAGE</key> <string>https://filezilla-project.org/download.php?show_all=1</string>
-        <key>USER_AGENT</key>
-        <string>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko)</string>
-        <key>RE_PATTERN</key>
-        <string>(https://dl\d?\.cdn\.filezilla-project\.org/client/FileZilla_(?P&lt;version&gt;[0-9\.]+)_macos_%ARCHITECTURE%\.app\.tar\.(?:xz|bz2|gz))</string>
+        <key>NAME</key>
+        <string>FileZilla</string>
     </dict>
-
+    <key>MinimumVersion</key>
+    <string>1.0.0</string>
     <key>Process</key>
     <array>
         <dict>
-            <key>Processor</key>  <string>URLTextSearcher</string>
+            <key>Processor</key>
+            <string>URLTextSearcher</string>
             <key>Arguments</key>
             <dict>
-                <key>url</key>            <string>%DOWNLOAD_PAGE%</string>
-                <key>request_headers</key><string>User-Agent: %USER_AGENT%</string>
-                <key>re_pattern</key>     <string>%RE_PATTERN%</string>
-                <key>result_output_var_name</key><string>download_url</string>
+                <key>url</key>
+                <string>https://filezilla-project.org/download.php?show_all=1</string>
+                <key>re_pattern</key>
+                <string>https://download\.filezilla-project\.org/client/FileZilla_[0-9\.]+_macos-x86\.app\.tar\.bz2</string>
             </dict>
         </dict>
-
         <dict>
-            <key>Processor</key>  <string>URLDownloader</string>
+            <key>Processor</key>
+            <string>URLDownloader</string>
             <key>Arguments</key>
             <dict>
-                <key>url</key>      <string>%download_url%</string>
-                <key>filename</key> <string>%NAME%-%version%-%ARCHITECTURE%.tar.xz</string>
+                <key>url</key>
+                <string>%match%</string>
+                <key>filename</key>
+                <string>%NAME%-intel.tar.bz2</string>
             </dict>
         </dict>
-
-        <dict> <key>Processor</key> <string>EndOfCheckPhase</string> </dict>
-
         <dict>
-            <key>Processor</key>  <string>Unarchiver</string>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>Unarchiver</string>
             <key>Arguments</key>
             <dict>
-                <key>archive_path</key>     <string>%pathname%</string>
-                <key>destination_path</key> <string>%RECIPE_CACHE_DIR%/%NAME%</string>
-                <key>purge_destination</key><true/>
+                <key>archive_path</key>
+                <string>%pathname%</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+                <key>purge_destination</key>
+                <true/>
             </dict>
         </dict>
-
         <dict>
-            <key>Processor</key>  <string>CodeSignatureVerifier</string>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
             <key>Arguments</key>
             <dict>
-                <key>input_path</key>  <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
+                <key>input_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
                 <key>requirement</key>
-                <string>identifier "org.filezilla-project.filezilla" and anchor apple generic and certificate leaf[subject.OU] = "5VPGKXL75N"</string>
-            </dict>
-        </dict>
-
-        <dict>
-            <key>Processor</key>  <string>Versioner</string>
-            <key>Arguments</key>
-            <dict>
-                <key>input_plist_path</key>
-                <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app/Contents/Info.plist</string>
-                <key>plist_version_key</key><string>CFBundleShortVersionString</string>
+                <string>identifier "org.filezilla-project.filezilla" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] and certificate leaf[field.1.2.840.113635.100.6.1.13] and certificate leaf[subject.OU] = "5VPGKXL75N"</string>
             </dict>
         </dict>
     </array>

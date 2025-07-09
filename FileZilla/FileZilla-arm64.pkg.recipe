@@ -1,55 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Paketiert FileZilla (Apple Silicon) als .pkg.</string>
-
+    <string>Downloads the latest version of FileZilla and creates a package for ARM64 Macs.</string>
     <key>Identifier</key>
     <string>com.github.emetriq.autopkg.FileZilla-arm64.pkg</string>
-
     <key>Input</key>
-    <dict/>
-
+    <dict>
+        <key>NAME</key>
+        <string>FileZilla</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>1.0.0</string>
     <key>ParentRecipe</key>
     <string>com.github.emetriq.autopkg.FileZilla-arm64.download</string>
-
     <key>Process</key>
     <array>
         <dict>
-            <key>Processor</key>  <string>PkgRootCreator</string>
+            <key>Processor</key>
+            <string>AppPkgCreator</string>
             <key>Arguments</key>
             <dict>
-                <key>pkgroot</key> <string>%RECIPE_CACHE_DIR%/pkgroot</string>
-                <key>pkgdirs</key>
-                <dict>
-                    <key>Applications</key> <string>0775</string>
-                </dict>
-            </dict>
-        </dict>
-
-        <dict>
-            <key>Processor</key>  <string>Copier</string>
-            <key>Arguments</key>
-            <dict>
-                <key>source_path</key>
+                <key>app_path</key>
                 <string>%RECIPE_CACHE_DIR%/%NAME%/FileZilla.app</string>
-                <key>destination_path</key>
-                <string>%pkgroot%/Applications/FileZilla.app</string>
-            </dict>
-        </dict>
-
-        <dict>
-            <key>Processor</key>  <string>PkgCreator</string>
-            <key>Arguments</key>
-            <dict>
-                <key>pkg_root</key> <string>%pkgroot%</string>
-                <key>pkgdir</key>   <string>%RECIPE_CACHE_DIR%</string>
-                <key>pkg_request</key>
-                <string>
-                    pkgname FileZilla-%version%-%ARCHITECTURE%.pkg
-                    id org.filezilla-project.filezilla
-                    version %version%
-                </string>
             </dict>
         </dict>
     </array>
