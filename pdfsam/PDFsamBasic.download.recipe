@@ -1,40 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <recipe>
-  <identifier>com.github.emetriq.autopkg.PDFsamBasic.download</identifier>
-  <description>Lädt PDFsam Basic (Intel & Apple Silicon) für macOS herunter.</description>
+  <identifier>com.github.emetriq.autopkg.pdfsambasic.download</identifier>
+  <description>Lädt das passende PDFsam Basic DMG für macOS (arm64 oder x64) und übernimmt den Original-Dateinamen.</description>
   <minimum_autopkg_version>2.3</minimum_autopkg_version>
 
   <input>
     <NAME>PDFsam Basic</NAME>
-    <!-- Offizielle Release-URLs: letzte stabile Version -->
-    <INTEL_URL>https://github.com/torakiki/pdfsam/releases/latest/download/pdfsam-basic-macos-intel.zip</INTEL_URL>
-    <ARM_URL>https://github.com/torakiki/pdfsam/releases/latest/download/pdfsam-basic-macos-arm64.zip</ARM_URL>
-    <!-- Wähle arch: intel | arm | universal -->
-    <ARCH>universal</ARCH>
+    <DOWNLOAD_PAGE_URL>https://pdfsam.org/de/download-pdfsam-basic/</DOWNLOAD_PAGE_URL>
+    <!-- ARCH_TOKEN: arm64 (Apple Silicon) oder x64 (Intel) -->
+    <ARCH_TOKEN>arm64</ARCH_TOKEN>
   </input>
 
   <process>
+    <!-- Link zum passenden DMG (Version inkl. im Dateinamen) aus der Seite parsen -->
+    <processor>URLTextSearcher</processor>
+    <arguments>
+      <url>%DOWNLOAD_PAGE_URL%</url>
+      <re_pattern>href="(https://github\.com/torakiki/pdfsam/releases/download/[^"]+/pdfsam-basic-[^"]+-macos-%ARCH_TOKEN%\.dmg)"</re_pattern>
+      <result_output_var_name>download_url</result_output_var_name>
+    </arguments>
+
+    <!-- DMG laden: KEIN filename gesetzt -> Original-Dateiname bleibt erhalten -->
     <processor>URLDownloader</processor>
     <arguments>
-      <!-- conditional Auswahl -->
-      <url>
-        {% if ARCH == "intel" %}
-          %INTEL_URL%
-        {% elif ARCH == "arm" %}
-          %ARM_URL%
-        {% else %}
-          %ARM_URL%
-        {% endif %}
-      </url>
-      <filename>
-        {% if ARCH == "intel" %}
-          PDFsamBasic-Intel.zip
-        {% elif ARCH == "arm" %}
-          PDFsamBasic-ARM.zip
-        {% else %}
-          PDFsamBasic-Universal.zip
-        {% endif %}
-      </filename>
+      <url>%download_url%</url>
     </arguments>
 
     <processor>EndOfCheckPhase</processor>

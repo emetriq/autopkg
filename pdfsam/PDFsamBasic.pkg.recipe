@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <recipe>
-  <identifier>com.github.emetriq.autopkg.PDFsamBasic.pkg</identifier>
-  <parent>com.github.emetriq.autopkg.PDFsamBasic.download</parent>
-  <description>Erstellt PKG für die gewählte Architektur.</description>
+  <identifier>com.github.emetriq.autopkg.pdfsambasic.pkg</identifier>
+  <parent>com.github.emetriq.autopkg.pdfsambasic.download</parent>
+  <description>Erstellt ein PKG aus dem geladenen DMG und versieht es mit Versionsnummer und Architektur im Namen.</description>
   <minimum_autopkg_version>2.3</minimum_autopkg_version>
 
   <input>
-    <ARCH>universal</ARCH>
+    <ARCH_TOKEN>arm64</ARCH_TOKEN>
+    <EXTRACT_DIR>%RECIPE_CACHE_DIR%/extract</EXTRACT_DIR>
+    <BUNDLE_ID>org.pdfsam.basic</BUNDLE_ID>
+    <TEAM_ID>8XM3GHX436</TEAM_ID>
   </input>
 
   <process>
+    <!-- Version aus der App im DMG ermitteln -->
+    <processor>AppDmgVersioner</processor>
+    <arguments>
+      <dmg_path>%pathname%</dmg_path>
+    </arguments>
+
+    <!-- App aus dem DMG extrahieren -->
+    <processor>AppDmgExtractor</processor>
+    <arguments>
+      <dmg_path>%pathname%</dmg_path>
+      <destination_path>%EXTRACT_DIR%</destination_path>
+    </arguments>
+
+    <!-- Signatur prüfen -->
+    <processor>CodeSignatureVerifier</processor>
+    <arguments>
+      <input_path>%EXTRACT_DIR%/PDFsam Basic.app</input_path>
+      <requirement>identifier "%BUNDLE_ID%" and anchor apple generic and certificate leaf[subject.OU] = "%TEAM_ID%"</requirement>
+    </arguments>
+
+    <!-- PKG bauen: Versions- und Arch-Kürzel im Dateinamen -->
     <processor>PkgCreator</processor>
     <arguments>
-      <pkg_path>%RECIPE_CACHE_DIR%/PDFsamBasic-%ARCH%.pkg</pkg_path>
-      <app_path>%RECIPE_CACHE_DIR%/PDFsam Basic.app</app_path>
-      <identifier>org.pdfsam.basic</identifier>
+      <pkg_path>%RECIPE_CACHE_DIR%/PDFsamBasic-%version%-%ARCH_TOKEN%.pkg</pkg_path>
+      <app_path>%EXTRACT_DIR%/PDFsam Basic.app</app_path>
+      <identifier>%BUNDLE_ID%</identifier>
       <version>%version%</version>
     </arguments>
   </process>
