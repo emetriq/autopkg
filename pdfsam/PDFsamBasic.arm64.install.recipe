@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <recipe identifier="com.github.emetriq.autopkg.PDFsam.install"
          minimum_autopkg_version="2.3"
-         parent="com.github.emetriq.autopkg.PDFsam-arm64.download">
+         parent="com.github.emetriq.autopkg.PDFsamBasic.arm64.download">
     <description>Installiert die heruntergeladene PDFsam Basic App.</description>
     <process>
         <processor>AppDmgVersioner</processor>

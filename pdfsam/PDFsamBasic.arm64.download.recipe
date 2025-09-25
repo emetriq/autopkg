@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<recipe identifier="com.github.emetriq.autopkg.PDFsam-arm64.download"
+<recipe identifier="com.github.emetriq.autopkg.PDFsamBasic.arm64.download"
          minimum_autopkg_version="2.3">
     <description>Lädt stets die neueste PDFsam Basic ARM64-Version von GitHub.</description>
     <input>
