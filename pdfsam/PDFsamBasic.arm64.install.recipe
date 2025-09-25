@@ -15,10 +15,6 @@
     <array>
         <dict>
             <key>Processor</key>
-            <string>AppDmgVersioner</string>
-        </dict>
-        <dict>
-            <key>Processor</key>
             <string>DmgMounter</string>
             <key>Arguments</key>
             <dict>

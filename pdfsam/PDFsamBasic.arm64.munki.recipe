@@ -12,10 +12,6 @@
         <string>/Users/Shared/munki_repo</string>
         <key>pkginfo</key>
         <dict>
-            <key>requires</key>
-            <array>
-                <string>%processor_architecture% == "arm64"</string>
-            </array>
             <key>description</key>
             <string>PDF Document Split and Merge Tool</string>
             <key>category</key>

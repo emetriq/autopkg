@@ -8,16 +8,19 @@
     <dict>
         <key>NAME</key>
         <string>PDFsam Basic (x64)</string>
-        <key>VERSION</key>
-        <string>5.4.0</string>
-        <key>DOWNLOAD_URL</key>
-        <string>https://github.com/torakiki/pdfsam/releases/download/v%VERSION%/pdfsam-basic-%VERSION%-macos-x64.dmg</string>
+        <key>MUNKI_REPO</key>
+        <string>/Users/Shared/munki_repo</string>
     </dict>
     <key>Process</key>
     <array>
         <dict>
             <key>Processor</key>
             <string>URLDownloader</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>https://github.com/torakiki/pdfsam/releases/download/v5.4.0/pdfsam-basic-5.4.0-macos-x64.dmg</string>
+            </dict>
         </dict>
         <dict>
             <key>Processor</key>
