@@ -7,11 +7,15 @@
     <key>Input</key>
     <dict>
         <key>NAME</key>
-        <string>PDFsam Basic</string>
+        <string>PDFsam Basic (ARM64)</string>
         <key>MUNKI_REPO</key>
         <string>/Users/Shared/munki_repo</string>
         <key>pkginfo</key>
         <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
             <key>description</key>
             <string>PDF Document Split and Merge Tool</string>
             <key>category</key>
@@ -24,15 +28,119 @@
             <string>PDFsamBasic</string>
             <key>restart_action</key>
             <string>RequiresRestart</string>
+            <key>unattended_install</key>
+            <true/>
+            <key>unattended_uninstall</key>
+            <true/>
         </dict>
     </dict>
-    <key>ParentRecipe</key>
-    <string>com.github.emetriq.autopkg.PDFsamBasic.arm64.install</string>
     <key>Process</key>
     <array>
         <dict>
             <key>Processor</key>
+            <string>URLTextSearcher</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>https://api.github.com/repos/torakiki/pdfsam/releases/latest</string>
+                <key>re_pattern</key>
+                <string>"tag_name":\s*"v(\d+\.\d+\.\d+)"</string>
+                <key>result_output_var_name</key>
+                <string>pdfsam_version</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+            <key>Arguments</key>
+            <dict>
+                <key>url</key>
+                <string>https://github.com/torakiki/pdfsam/releases/download/v%pdfsam_version%/pdfsam-basic-%pdfsam_version%-macos-arm64.dmg</string>
+                <key>filename</key>
+                <string>pdfsam-basic-arm64.dmg</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%</string>
+                <key>requirement</key>
+                <string>anchor apple generic and certificate leaf[subject.CN] = "Developer ID Application: Andrea Vacondio (8XM3GHX436)" and certificate 1[subject.CN] = "Apple Worldwide Developer Relations Certification Authority" and certificate 2[subject.CN] = "Apple Root CA"</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>DmgMounter</string>
+            <key>Arguments</key>
+            <dict>
+                <key>dmg_path</key>
+                <string>%pathname%</string>
+                <key>mount_point</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>FileFinder</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pattern</key>
+                <string>%dmg_mounted_path%/PDFsam Basic.app</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>Copier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>source_path</key>
+                <string>%found_filename%</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/Applications/PDFsam Basic.app</string>
+                <key>overwrite</key>
+                <true/>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>PkgRootCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkgroot</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+                <key>pkgdirs</key>
+                <array>
+                    <string>Applications</string>
+                </array>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiPkginfoMerger</string>
+            <key>Arguments</key>
+            <dict>
+                <key>additional_pkginfo</key>
+                <dict>
+                    <key>version</key>
+                    <string>%pdfsam_version%</string>
+                    <key>supported_architectures</key>
+                    <string>arm64</string>
+                </dict>
+            </dict>
+        </dict>
+        <dict>
+            <key>Processor</key>
             <string>MunkiImporter</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%/Applications/PDFsam Basic.app</string>
+                <key>repo_subdirectory</key>
+                <string>apps</string>
+            </dict>
         </dict>
     </array>
 </dict>
