@@ -1,42 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>Identifier</key>
-    <string>com.github.emetriq.autopkg.PDFsamBasic.arm64.download</string>
-    <key>Input</key>
-    <dict>
+<recipe identifier="com.github.emetriq.autopkg.PDFsam-arm64.download"
+         minimum_autopkg_version="2.3">
+    <description>Lädt stets die neueste PDFsam Basic ARM64-Version von GitHub.</description>
+    <input>
         <key>NAME</key>
-        <string>PDFsam Basic (ARM64)</string>
-        <key>MUNKI_REPO</key>
-        <string>/Users/Shared/munki_repo</string>
-    </dict>
-    <key>Process</key>
-    <array>
-        <dict>
-            <key>Processor</key>
-            <string>URLDownloader</string>
-            <key>Arguments</key>
+        <string>PDFsam Basic (arm64)</string>
+        <key>GITHUB_REPO</key>
+        <string>torakiki/pdfsam</string>
+        <key>PLATFORM</key>
+        <string>arm64</string>
+    </input>
+    <process>
+        <!-- Holt neuestes Release-Asset für ARM64 -->
+        <processor>GitHubReleasesInfoProvider</processor>
+        <arguments>
             <dict>
-                <key>url</key>
-                <string>https://github.com/torakiki/pdfsam/releases/download/v5.4.0/pdfsam-basic-5.4.0-macos-arm64.dmg</string>
+                <key>github_repo</key>
+                <string>%GITHUB_REPO%</string>
+                <key>asset_regex</key>
+                <string>pdfsam-basic-.*-macos-arm64\.dmg</string>
             </dict>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>EndOfCheckPhase</string>
-        </dict>
-        <dict>
-            <key>Processor</key>
-            <string>CodeSignatureVerifier</string>
-            <key>Arguments</key>
+        </arguments>
+        <processor>URLDownloader</processor>
+        <arguments>
             <dict>
-                <key>input_path</key>
-                <string>%pathname%</string>
-                <key>requirement</key>
-                <string>anchor apple generic and certificate leaf[subject.CN] = "Developer ID Application: Andrea Vacondio (8XM3GHX436)" and certificate 1[subject.CN] = "Apple Worldwide Developer Relations Certification Authority" and certificate 2[subject.CN] = "Apple Root CA"</string>
+                <key>filename</key>
+                <string>PDFsam-Basic-arm64.dmg</string>
             </dict>
-        </dict>
-    </array>
-</dict>
-</plist>
+        </arguments>
+        <processor>EndOfCheckPhase</processor>
+    </process>
+</recipe>
