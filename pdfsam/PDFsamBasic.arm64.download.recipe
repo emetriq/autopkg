@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.PDFsamBasic.arm64.download</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>PDFsam Basic (ARM64)</string>
+        <key>VERSION</key>
+        <string>5.4.0</string>
+        <key>DOWNLOAD_URL</key>
+        <string>https://github.com/torakiki/pdfsam/releases/download/v%VERSION%/pdfsam-basic-%VERSION%-macos-arm64.dmg</string>
+    </dict>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>URLDownloader</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>EndOfCheckPhase</string>
+        </dict>
+        <dict>
+            <key>Processor</key>
+            <string>CodeSignatureVerifier</string>
+            <key>Arguments</key>
+            <dict>
+                <key>input_path</key>
+                <string>%pathname%</string>
+                <key>requirement</key>
+                <string>anchor apple generic and certificate leaf[subject.CN] = "Developer ID Application: Andrea Vacondio (8XM3GHX436)" and certificate 1[subject.CN] = "Apple Worldwide Developer Relations Certification Authority" and certificate 2[subject.CN] = "Apple Root CA"</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>

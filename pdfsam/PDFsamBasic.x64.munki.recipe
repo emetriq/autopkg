@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Identifier</key>
+    <string>com.github.emetriq.autopkg.PDFsamBasic.x64.munki</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>PDFsam Basic</string>
+        <key>MUNKI_REPO</key>
+        <string>/Users/Shared/munki_repo</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>requires</key>
+            <array>
+                <string>%processor_architecture% == "x86_64"</string>
+            </array>
+            <key>description</key>
+            <string>PDF Document Split and Merge Tool</string>
+            <key>category</key>
+            <string>Document</string>
+            <key>developer</key>
+            <string>Andrea Vacondio</string>
+            <key>display_name</key>
+            <string>PDFsam Basic (x64)</string>
+            <key>name</key>
+            <string>PDFsamBasic</string>
+            <key>restart_action</key>
+            <string>RequiresRestart</string>
+        </dict>
+    </dict>
+    <key>ParentRecipe</key>
+    <string>com.github.emetriq.autopkg.PDFsamBasic.x64.install</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
