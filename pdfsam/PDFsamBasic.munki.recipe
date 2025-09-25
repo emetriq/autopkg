@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe>
+  <identifier>com.github.emetriq.autopkg.PDFsamBasic.munki</identifier>
+  <parent>com.github.emetriq.autopkg.PDFsamBasic.pkg</parent>
+  <description>Importiert die Architektur-spezifische PKG in Munki.</description>
+  <minimum_autopkg_version>2.3</minimum_autopkg_version>
+
+  <input>
+    <ARCH>universal</ARCH>
+    <MUNKI_REPO_SUBDIR>apps/PDFsamBasic</MUNKI_REPO_SUBDIR>
+  </input>
+
+  <process>
+    <processor>MunkiImporter</processor>
+    <arguments>
+      <pkg_path>%RECIPE_CACHE_DIR%/PDFsamBasic-%ARCH%.pkg</pkg_path>
+      <repo_subdirectory>%MUNKI_REPO_SUBDIR%</repo_subdirectory>
+      <pkginfo>
+        <name>PDFsam Basic</name>
+        <display_name>PDFsam Basic (%ARCH%)</display_name>
+        <description>PDF Split &amp; Merge Tool</description>
+        <developer>Andrea Vacondio</developer>
+        <bundleid>org.pdfsam.basic</bundleid>
+        <minimum_os_version>10.13.0</minimum_os_version>
+        <supported_architectures>
+          {% if ARCH == "intel" %}x86_64{% elif ARCH == "arm" %}arm64{% else %}x86_64,arm64{% endif %}
+        </supported_architectures>
+      </pkginfo>
+    </arguments>
+  </process>
+</recipe>

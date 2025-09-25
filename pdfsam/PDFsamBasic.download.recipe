@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe>
+  <identifier>com.github.emetriq.autopkg.PDFsamBasic.download</identifier>
+  <description>Lädt PDFsam Basic (Intel & Apple Silicon) für macOS herunter.</description>
+  <minimum_autopkg_version>2.3</minimum_autopkg_version>
+
+  <input>
+    <NAME>PDFsam Basic</NAME>
+    <!-- Offizielle Release-URLs: letzte stabile Version -->
+    <INTEL_URL>https://github.com/torakiki/pdfsam/releases/latest/download/pdfsam-basic-macos-intel.zip</INTEL_URL>
+    <ARM_URL>https://github.com/torakiki/pdfsam/releases/latest/download/pdfsam-basic-macos-arm64.zip</ARM_URL>
+    <!-- Wähle arch: intel | arm | universal -->
+    <ARCH>universal</ARCH>
+  </input>
+
+  <process>
+    <processor>URLDownloader</processor>
+    <arguments>
+      <!-- conditional Auswahl -->
+      <url>
+        {% if ARCH == "intel" %}
+          %INTEL_URL%
+        {% elif ARCH == "arm" %}
+          %ARM_URL%
+        {% else %}
+          %ARM_URL%
+        {% endif %}
+      </url>
+      <filename>
+        {% if ARCH == "intel" %}
+          PDFsamBasic-Intel.zip
+        {% elif ARCH == "arm" %}
+          PDFsamBasic-ARM.zip
+        {% else %}
+          PDFsamBasic-Universal.zip
+        {% endif %}
+      </filename>
+    </arguments>
+
+    <processor>EndOfCheckPhase</processor>
+  </process>
+</recipe>

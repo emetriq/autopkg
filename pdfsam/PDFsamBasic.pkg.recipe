@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recipe>
+  <identifier>com.github.emetriq.autopkg.PDFsamBasic.pkg</identifier>
+  <parent>com.github.emetriq.autopkg.PDFsamBasic.download</parent>
+  <description>Erstellt PKG für die gewählte Architektur.</description>
+  <minimum_autopkg_version>2.3</minimum_autopkg_version>
+
+  <input>
+    <ARCH>universal</ARCH>
+  </input>
+
+  <process>
+    <processor>PkgCreator</processor>
+    <arguments>
+      <pkg_path>%RECIPE_CACHE_DIR%/PDFsamBasic-%ARCH%.pkg</pkg_path>
+      <app_path>%RECIPE_CACHE_DIR%/PDFsam Basic.app</app_path>
+      <identifier>org.pdfsam.basic</identifier>
+      <version>%version%</version>
+    </arguments>
+  </process>
+</recipe>
