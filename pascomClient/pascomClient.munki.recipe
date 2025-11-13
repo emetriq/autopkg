@@ -2,57 +2,51 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Description</key>
-    <string>Downloads the latest release of pascom Desktop Client and imports it into Munki.</string>
-    <key>Identifier</key>
-    <string>com.github.emetriq.autopkg.munki.pascom</string>
-    <key>Input</key>
-    <dict>
-        <key>MUNKI_REPO_SUBDIR</key>
-        <string>apps/%NAME%</string>
-        <key>NAME</key>
-        <string>pascom Desktop Client</string>
-        <key>MUNKI_CATEGORY</key>
-        <string>Communication</string>
-        <key>pkginfo</key>
-        <dict>
-            <key>catalogs</key>
-            <array>
-                <string>testing</string>
-            </array>
-            <key>description</key>
-            <string>pascom Desktop Client</string>
-            <key>developer</key>
-            <string>pascom Netzwerktechnik GmbH &amp; Co. KG</string>
-            <key>display_name</key>
-            <string>pascom Desktop Client</string>
-            <key>name</key>
-            <string>%NAME%</string>
-            <key>category</key>
-            <string>%MUNKI_CATEGORY%</string>
-            <key>uninstall_method</key>
-            <string>remove_copied_items</string>
-        </dict>
-    </dict>
-    <key>MinimumVersion</key>
-    <string>2.3.0</string>
-    <key>ParentRecipe</key>
-    <string>com.github.emetriq.autopkg.download.pascom</string>
-    <key>Process</key>
-    <array>
-        <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>repo_subdirectory</key>
-                <string>%MUNKI_REPO_SUBDIR%</string>
-                <key>pkg_path</key>
-                <string>%pathname%</string>
-                <key>version_comparison_key</key>
-                <string>CFBundleShortVersionString</string>
-            </dict>
-            <key>Processor</key>
-            <string>MunkiImporter</string>
-        </dict>
-    </array>
+	<key>Description</key>
+	<string>Downloads the latest version of pascom Client and imports it into Munki.</string>
+	<key>Identifier</key>
+	<string>com.github.emetriq.autopkg.munki.pascomClient</string>
+	<key>Input</key>
+	<dict>
+		<key>MUNKI_REPO_SUBDIR</key>
+		<string>apps/%NAME%</string>
+		<key>NAME</key>
+		<string>pascomclient</string>
+		<key>pkginfo</key>
+		<dict>
+			<key>catalogs</key>
+			<array>
+				<string>testing</string>
+			</array>
+			<key>description</key>
+			<string>pascom Client - zum Steuern der Telefone und zum Telefonieren via MacBook.</string>
+			<key>developer</key>
+			<string>pascom GmbH</string>
+			<key>display_name</key>
+			<string>pascom Client</string>
+			<key>name</key>
+			<string>%NAME%</string>
+			<key>unattended_install</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+	<key>ParentRecipe</key>
+	<string>com.github.emetriq.autopkg.download.pascomClient</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%pathname%</string>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+		</dict>
+	</array>
 </dict>
 </plist>
