@@ -5,15 +5,17 @@
 	<key>Comment</key>
 	<string>Created with Recipe Robot v2.5.0 (https://github.com/homebysix/recipe-robot)</string>
 	<key>Description</key>
-	<string>Downloads the latest version of Fanny and imports it into Munki.</string>
+	<string>Downloads the latest version of Fanny, builds a package, and imports it into Munki.</string>
 	<key>Identifier</key>
 	<string>com.github.emetriq.autopkg.munki.Fanny</string>
+
 	<key>Input</key>
 	<dict>
 		<key>MUNKI_REPO_SUBDIR</key>
 		<string>apps/%NAME%</string>
 		<key>NAME</key>
 		<string>Fanny</string>
+
 		<key>pkginfo</key>
 		<dict>
 			<key>catalogs</key>
@@ -32,34 +34,27 @@
 			<true/>
 		</dict>
 	</dict>
+
 	<key>MinimumVersion</key>
 	<string>2.3</string>
+
 	<key>ParentRecipe</key>
-	<string>com.github.emetriq.autopkg.download.Fanny</string>
+	<string>com.github.emetriq.autopkg.pkg.Fanny</string>
+
 	<key>Process</key>
 	<array>
 		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>dmg_path</key>
-				<string>%RECIPE_CACHE_DIR%/%NAME%.dmg</string>
-				<key>dmg_root</key>
-				<string>%RECIPE_CACHE_DIR%/%NAME%</string>
-			</dict>
 			<key>Processor</key>
-			<string>DmgCreator</string>
-		</dict>
-		<dict>
+			<string>MunkiImporter</string>
 			<key>Arguments</key>
 			<dict>
 				<key>pkg_path</key>
-				<string>%dmg_path%</string>
+				<string>%pkg_path%</string>
 				<key>repo_subdirectory</key>
 				<string>%MUNKI_REPO_SUBDIR%</string>
 			</dict>
-			<key>Processor</key>
-			<string>MunkiImporter</string>
 		</dict>
 	</array>
+
 </dict>
 </plist>
