@@ -8,10 +8,13 @@
     <string>com.github.emetriq.autopkg.download.VisualStudioCode</string>
     <key>Input</key>
     <dict>
-		<key>NAME</key>
-		<string>VisualStudioCode</string>
+	<key>NAME</key>
+	<string>VisualStudioCode</string>
+	<!-- DOWNLOAD_ARCH needs to be "-arm64" for Apple Silicon. Can also be "-universal" -->
+	<key>DOWNLOAD_ARCH</key>
+        <string>-arm64</string>
         <key>url</key>
-        <string>https://code.visualstudio.com/sha/download?build=stable&amp;os=darwin-universal</string>
+        <string>https://code.visualstudio.com/sha/download?build=stable&amp;os=darwin%DOWNLOAD_ARCH%-dmg</string>
     </dict>
     <key>MinimumVersion</key>
     <string>2.3.0</string>
@@ -21,7 +24,7 @@
             <key>Arguments</key>
             <dict>
             	<key>filename</key>
-				<string>%NAME%.zip</string>
+		<string>%NAME%.zip</string>
             </dict>
             <key>Processor</key>
             <string>URLDownloader</string>

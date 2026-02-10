@@ -12,6 +12,12 @@
 		<string>apps/Visual Studio Code</string>
 		<key>NAME</key>
 		<string>Visual Studio Code</string>
+		<!-- DOWNLOAD_ARCH needs to be "-arm64" for Apple Silicon. Can also be "-universal" -->
+		<key>DOWNLOAD_ARCH</key>
+                <string>-arm64</string>
+		<!-- MUNKI_ARCH override to arm64 for Apple Silicon. Delete supported_architectures for universal -->
+		<key>MUNKI_ARCH</key>
+                <string>arm64</string>
 		<key>pkginfo</key>
 		<dict>
 			<key>catalogs</key>
@@ -30,6 +36,10 @@
 			<string>10.7</string>
 			<key>name</key>
 			<string>%NAME%</string>
+			<key>supported_architectures</key>
+                        <array>
+                                <string>%MUNKI_ARCH%</string>
+                        </array>
 			<key>unattended_install</key>
 			<true/>
 		</dict>
