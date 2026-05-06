@@ -55,40 +55,39 @@ class MunkiTestVMProcessor(Processor):
             run_results = []
 
         something_imported = False
-        # Scanne Ergebnisse nach MunkiImporter Aktivität
         for result in run_results:
             for item in result:
                 if item.get("Processor") == "MunkiImporter":
                     something_imported = True
                     break
         
+        # Zugriff auf Variable via env Dictionary (Fix für 'attribute' Error)
+        test_script_path = self.env.get("test_script_path")
+
         if not something_imported:
             self.output("No new imports detected. Skipping VM tests.")
             self.env["testvm_resultcode"] = 0
         else:
-            self.output(f"New imports found! Triggering VM test: {self.test_script_path}")
-            
-            args = [self.test_script_path]
+            if not test_script_path:
+                raise ProcessorError("Input variable 'test_script_path' is missing!")
 
+            self.output(f"New imports found! Triggering VM test: {test_script_path}")
+            
             try:
-                # Wir führen das Script aus und streamen den Output in die AutoPkg Konsole
+                # Streamt den Output des Scripts live in das AutoPkgr Log
                 proc = subprocess.Popen(
-                    args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
+                    [test_script_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
                 )
                 
-                # Live-Output in die AutoPkg Konsole schreiben
                 for line in proc.stdout:
                     self.output(f"VM-TEST: {line.strip()}")
                 
                 proc.wait()
+                self.env["testvm_resultcode"] = proc.returncode
                 
             except OSError as err:
-                raise ProcessorError(
-                    "Execution of test script failed: %s" % err.strerror
-                )
+                raise ProcessorError(f"Execution of test script failed: {err.strerror}")
 
-            self.env["testvm_resultcode"] = proc.returncode
-            
             if proc.returncode != 0:
                 raise ProcessorError(f"VM Test script failed with return code {proc.returncode}")
             else:
