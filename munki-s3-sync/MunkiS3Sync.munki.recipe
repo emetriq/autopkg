@@ -3,13 +3,16 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Sync Munki catalogs to S3 and trigger VM tests if any other recipe in the same autopkg run imported something.</string>
+    <string>Dieses Recipe synchronisiert das lokale Munki-Repo mit S3 und triggert anschließend einen Testlauf in der GhostVM. Beide Aktionen werden nur ausgeführt, wenn während des gesamten AutoPkg-Durchlaufs (im aktuellen Intervall) mindestens ein Paket neu importiert wurde.</string>
     <key>Identifier</key>
     <string>com.github.emetriq.autopkg.munkis3sync</string>
     <key>Input</key>
     <dict>
         <key>TEST_SCRIPT_PATH</key>
         <string>/usr/local/bin/test_packages.py</string>
+        
+        <key>S3_SYNC_SCRIPT_PATH</key>
+        <string>/usr/local/bin/munki-s3-sync.sh</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
@@ -18,6 +21,11 @@
         <dict>
             <key>Processor</key>
             <string>MunkiS3SyncProcessor</string>
+            <key>Arguments</key>
+            <dict>
+                <key>s3_sync_script</key>
+                <string>%S3_SYNC_SCRIPT_PATH%</string>
+            </dict>
         </dict>
         <dict>
             <key>Processor</key>

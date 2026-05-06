@@ -1,6 +1,6 @@
 #!/usr/local/autopkg/python
 #
-# Copyright 2021 Markus Stapel
+# Copyright 2026 Markus Stapel
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""autopkg processor to run munki-s3-sync on a Munki repo"""
+"""autopkg processor to run munki-s3-sync on a Munki repo if it has changed"""
 
 import os.path
 import plistlib
@@ -23,89 +23,75 @@ from autopkglib import Processor, ProcessorError, get_pref
 
 __all__ = ["MunkiS3SyncProcessor"]
 
-
 class MunkiS3SyncProcessor(Processor):
-    """Runs munki-s3-sync on a munki repo"""
+    """Runs munki-s3-sync.sh on a munki repo only if changes were detected."""
 
     input_variables = {
-    #    "MUNKI_REPO": {"required": True, "description": "Munki repo URL."},
-    #    "MUNKI_REPO_PLUGIN": {
-    #        "required": False,
-    #        "description": "Name of a Munki repo plugin. Defaults to FileRepo",
-    #    },
-    #    "force_rebuild": {
-    #        "required": False,
-    #        "description": (
-    #            "If not false or empty or undefined, force a makecatalogs run."
-    #        ),
-    #    },
+        "s3_sync_script": {
+            "required": False,
+            "default": "/usr/local/bin/munki-s3-sync.sh",
+            "description": "Path to the munki-s3-sync shell script.",
+        },
     }
     output_variables = {
         "munkis3sync_resultcode": {
             "description": "Result code from the munki-s3-sync operation."
-        },
-        "munkis3sync_stderr": {
-            "description": "Error output (if any) from munki-s3-sync."
-        },
+        }
     }
 
     description = __doc__
 
     def main(self):
-        """Sync Munki catalogs to S3"""
+        """Sync Munki catalogs to S3 if repo changed"""
 
+        # Pfad zur Ergebnisliste des aktuellen Laufs
         cache_dir = get_pref("CACHE_DIR") or os.path.expanduser(
             "~/Library/AutoPkg/Cache"
         )
         current_run_results_plist = os.path.join(cache_dir, "autopkg_results.plist")
+        
         try:
             with open(current_run_results_plist, "rb") as f:
                 run_results = plistlib.load(f)
         except (IOError, OSError):
             run_results = []
 
-        something_imported = False
-        # run_results is an array of autopackager.results,
-        # which is itself an array.
-        # look through all the results for evidence that
-        # something was imported
-        # this could probably be done as an array comprehension
-        # but might be harder to grasp...
+        # Prüfung auf Änderungen (Standard-Logik von Greg Neagle)
+        repo_changed = False
         for result in run_results:
             for item in result:
-                if item.get("Processor") == "MunkiImporter":
-                    #if item["Output"].get("pkginfo_repo_path"):
-                    something_imported = True
+                if "Output" in item and item["Output"].get("munki_repo_changed", False):
+                    repo_changed = True
                     break
-	#if not something_imported and not self.env.get("force_rebuild"):
-        if not something_imported:
-            self.output("No need to sync catalogs.")
+
+        s3_script = self.env.get("s3_sync_script")
+
+        if not repo_changed:
+            self.output("No changes detected in Munki repo. Skipping S3 sync.")
             self.env["munkis3sync_resultcode"] = 0
-            self.env["munkis3sync_stderr"] = ""
         else:
-            # Generate arguments for munki-s3-sync.
-            args = ["/usr/local/bin/munki-s3-sync.sh"]
-
-            # Call munki-s3-sync.
+            self.output(f"Repo changed! Running S3 sync script: {s3_script}")
+            
             try:
+                # Script ausführen
                 proc = subprocess.Popen(
-                    args, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                    [s3_script], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
                 )
-                (_, err_out) = proc.communicate()
+                
+                # Output für das AutoPkgr Log erfassen
+                for line in proc.stdout:
+                    self.output(f"S3-SYNC: {line.strip()}")
+                
+                proc.wait()
+                self.env["munkis3sync_resultcode"] = proc.returncode
+                
+                if proc.returncode != 0:
+                    raise ProcessorError(f"S3 sync script failed with return code {proc.returncode}")
+                
+                self.output("S3 sync completed successfully!")
+
             except OSError as err:
-                raise ProcessorError(
-                    "munki-s3-sync execution failed with error code %d: %s"
-                    % (err.errno, err.strerror)
-                )
-
-            self.env["munkis3sync_resultcode"] = proc.returncode
-            self.env["munkis3sync_stderr"] = err_out.decode("utf-8")
-            if proc.returncode != 0:
-                error_text = "munki-s3-sync failed: \n" + self.env["munkis3sync_stderr"]
-                raise ProcessorError(error_text)
-            else:
-                self.output("Munki catalogs synced!")
-
+                raise ProcessorError(f"Execution of S3 sync script failed: {err.strerror}")
 
 if __name__ == "__main__":
     PROCESSOR = MunkiS3SyncProcessor()
