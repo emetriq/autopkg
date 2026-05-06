@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""autopkg processor to run a VM test script if something was imported to Munki"""
+"""autopkg processor to run a VM test script if the Munki repo has changed"""
 
 import os.path
 import plistlib
@@ -24,7 +24,7 @@ from autopkglib import Processor, ProcessorError, get_pref
 __all__ = ["MunkiTestVMProcessor"]
 
 class MunkiTestVMProcessor(Processor):
-    """Runs a VM test script if MunkiImporter has imported something during the run."""
+    """Runs a VM test script if a previous processor signaled a repo change."""
 
     input_variables = {
         "test_script_path": {
@@ -41,8 +41,6 @@ class MunkiTestVMProcessor(Processor):
     description = __doc__
 
     def main(self):
-        """Check if something was imported and trigger VM test"""
-
         cache_dir = get_pref("CACHE_DIR") or os.path.expanduser(
             "~/Library/AutoPkg/Cache"
         )
@@ -54,27 +52,27 @@ class MunkiTestVMProcessor(Processor):
         except (IOError, OSError):
             run_results = []
 
-        something_imported = False
+        # Logik analog zu MakeCatalogsProcessor
+        repo_changed = False
         for result in run_results:
             for item in result:
-                if item.get("Processor") == "MunkiImporter":
-                    something_imported = True
+                if "Output" in item and item["Output"].get("munki_repo_changed", False):
+                    repo_changed = True
                     break
         
-        # Zugriff auf Variable via env Dictionary (Fix für 'attribute' Error)
         test_script_path = self.env.get("test_script_path")
 
-        if not something_imported:
-            self.output("No new imports detected. Skipping VM tests.")
+        if not repo_changed:
+            self.output("No changes detected in Munki repo. Skipping VM tests.")
             self.env["testvm_resultcode"] = 0
         else:
             if not test_script_path:
                 raise ProcessorError("Input variable 'test_script_path' is missing!")
 
-            self.output(f"New imports found! Triggering VM test: {test_script_path}")
+            self.output(f"Repo changed! Triggering VM test: {test_script_path}")
             
             try:
-                # Streamt den Output des Scripts live in das AutoPkgr Log
+                # Script ausführen und Output streamen
                 proc = subprocess.Popen(
                     [test_script_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
                 )
@@ -85,13 +83,13 @@ class MunkiTestVMProcessor(Processor):
                 proc.wait()
                 self.env["testvm_resultcode"] = proc.returncode
                 
+                if proc.returncode != 0:
+                    raise ProcessorError(f"VM Test script failed with return code {proc.returncode}")
+                
+                self.output("VM Test run completed successfully!")
+
             except OSError as err:
                 raise ProcessorError(f"Execution of test script failed: {err.strerror}")
-
-            if proc.returncode != 0:
-                raise ProcessorError(f"VM Test script failed with return code {proc.returncode}")
-            else:
-                self.output("VM Test run completed successfully!")
 
 if __name__ == "__main__":
     PROCESSOR = MunkiTestVMProcessor()
