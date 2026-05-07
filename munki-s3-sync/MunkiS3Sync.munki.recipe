@@ -11,7 +11,7 @@
         <key>S3_SYNC_SCRIPT_PATH</key>
         <string>/usr/local/bin/munki-s3-sync.sh</string>
         <key>force_run</key>
-        <false/>
+        <string>false</string>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
