@@ -1,5 +1,7 @@
 #!/usr/local/autopkg/python
-"""autopkg processor to run a VM test script"""
+#
+# Copyright 2026 Markus Stapel
+"""autopkg processor to run a VM test script and report results"""
 
 import os.path
 import plistlib
@@ -9,7 +11,7 @@ from autopkglib import Processor, ProcessorError, get_pref
 __all__ = ["MunkiTestVMProcessor"]
 
 class MunkiTestVMProcessor(Processor):
-    description = "Triggers VM test script if repo changed or force_run is True."
+    description = "Triggers VM test script and provides a summary report."
 
     input_variables = {
         "test_script_path": {
@@ -18,12 +20,14 @@ class MunkiTestVMProcessor(Processor):
         },
         "force_run": {
             "required": False,
-            "default": False,
-            "description": "If True, the test will run even if no changes were detected.",
+            "default": "false",
+            "description": "If true, run even without repo changes.",
         },
     }
     output_variables = {
-        "testvm_resultcode": {"description": "Result code from the script."}
+        "testvm_summary_result": {
+            "description": "Summary of the VM test run."
+        }
     }
 
     def main(self):
@@ -33,7 +37,7 @@ class MunkiTestVMProcessor(Processor):
         try:
             with open(current_run_results_plist, "rb") as f:
                 run_results = plistlib.load(f)
-        except (IOError, OSError):
+        except:
             run_results = []
 
         repo_changed = False
@@ -47,21 +51,42 @@ class MunkiTestVMProcessor(Processor):
         test_script_path = self.env.get("test_script_path")
 
         if not repo_changed and not force:
-            self.output("No changes detected and force_run is False. Skipping VM tests.")
+            self.output("No changes detected. Skipping VM tests.")
         else:
-            if force:
-                self.output("Force run enabled. Proceeding with VM test...")
-            
+            self.output(f"Triggering VM test: {test_script_path}")
             try:
-                proc = subprocess.Popen([test_script_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+                # Wir fangen stdout UND stderr ab, um Fehler im Log zu sehen
+                proc = subprocess.Popen(
+                    [test_script_path], 
+                    stdout=subprocess.PIPE, 
+                    stderr=subprocess.STDOUT, 
+                    text=True
+                )
+                
+                full_output = []
                 for line in proc.stdout:
-                    self.output(f"VM-TEST: {line.strip()}")
+                    clean_line = line.strip()
+                    full_output.append(clean_line)
+                    self.output(f"VM-TEST: {clean_line}")
+                
                 proc.wait()
-                self.env["testvm_resultcode"] = proc.returncode
+                
+                # Erstellt die Zusammenfassung für den AutoPkg-Report
+                self.env["testvm_summary_result"] = {
+                    "summary_text": "The following VM test activities occurred:",
+                    "report_variables": {
+                        "script": test_script_path,
+                        "status": "Success" if proc.returncode == 0 else "FAILED",
+                        "exit_code": str(proc.returncode),
+                        "last_line": full_output[-1] if full_output else "No output"
+                    }
+                }
+
                 if proc.returncode != 0:
-                    raise ProcessorError(f"VM Test script failed (Code {proc.returncode})")
-            except OSError as err:
-                raise ProcessorError(f"Execution failed: {err.strerror}")
+                    raise ProcessorError(f"VM Test script failed with code {proc.returncode}. Check logs above.")
+
+            except Exception as e:
+                raise ProcessorError(f"Processor failed: {e}")
 
 if __name__ == "__main__":
     PROCESSOR = MunkiTestVMProcessor()

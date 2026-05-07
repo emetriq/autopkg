@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Triggert den Munki-Testlauf in der GhostVM. Standardmäßig wird der Test nur ausgeführt, wenn Änderungen am Repo erkannt wurden (munki_repo_changed). Über die Variable force_run kann dies erzwungen werden.</string>
+    <string>Triggert den Munki-Testlauf in der GhostVM. Standardmäßig wird der Test nur ausgeführt, wenn Änderungen am Repo erkannt wurden. Über force_run kann dies erzwungen werden.</string>
     <key>Identifier</key>
     <string>com.github.emetriq.autopkg.munkitestvm</string>
     <key>Input</key>
@@ -12,6 +12,8 @@
         <string>/usr/local/bin/test_packages.py</string>
         <key>force_run</key>
         <string>false</string>
+        <key>DISABLE_CODE_SIGNATURE_VERIFICATION</key>
+        <true/>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
