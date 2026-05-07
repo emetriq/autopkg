@@ -6,12 +6,13 @@
 import os.path
 import plistlib
 import subprocess
+import re
 from autopkglib import Processor, ProcessorError, get_pref
 
 __all__ = ["MunkiTestVMProcessor"]
 
 class MunkiTestVMProcessor(Processor):
-    description = "Triggers VM test script and provides a summary report."
+    description = "Triggers VM test script and provides a summary report without control characters."
 
     input_variables = {
         "test_script_path": {
@@ -55,7 +56,6 @@ class MunkiTestVMProcessor(Processor):
         else:
             self.output(f"Triggering VM test: {test_script_path}")
             try:
-                # Wir fangen stdout UND stderr ab, um Fehler im Log zu sehen
                 proc = subprocess.Popen(
                     [test_script_path], 
                     stdout=subprocess.PIPE, 
@@ -71,19 +71,27 @@ class MunkiTestVMProcessor(Processor):
                 
                 proc.wait()
                 
-                # Erstellt die Zusammenfassung für den AutoPkg-Report
+                # ANSI-Farbcodes entfernen, damit die Plist nicht abstürzt
+                def strip_ansi(text):
+                    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+                    return ansi_escape.sub('', text)
+
+                last_line_clean = ""
+                if full_output:
+                    last_line_clean = strip_ansi(full_output[-1])
+
                 self.env["testvm_summary_result"] = {
                     "summary_text": "The following VM test activities occurred:",
                     "report_variables": {
                         "script": test_script_path,
                         "status": "Success" if proc.returncode == 0 else "FAILED",
                         "exit_code": str(proc.returncode),
-                        "last_line": full_output[-1] if full_output else "No output"
+                        "last_line": last_line_clean
                     }
                 }
 
                 if proc.returncode != 0:
-                    raise ProcessorError(f"VM Test script failed with code {proc.returncode}. Check logs above.")
+                    raise ProcessorError(f"VM Test script failed with code {proc.returncode}.")
 
             except Exception as e:
                 raise ProcessorError(f"Processor failed: {e}")
