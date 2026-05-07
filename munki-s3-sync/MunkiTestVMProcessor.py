@@ -12,7 +12,7 @@ from autopkglib import Processor, ProcessorError, get_pref
 __all__ = ["MunkiTestVMProcessor"]
 
 class MunkiTestVMProcessor(Processor):
-    description = "Triggers VM test script and provides a summary report without control characters."
+    description = "Triggers VM test script and provides a properly formatted summary report."
 
     input_variables = {
         "test_script_path": {
@@ -27,7 +27,7 @@ class MunkiTestVMProcessor(Processor):
     }
     output_variables = {
         "testvm_summary_result": {
-            "description": "Summary of the VM test run."
+            "description": "Summary of the VM test run for AutoPkg reporting."
         }
     }
 
@@ -71,7 +71,6 @@ class MunkiTestVMProcessor(Processor):
                 
                 proc.wait()
                 
-                # ANSI-Farbcodes entfernen, damit die Plist nicht abstürzt
                 def strip_ansi(text):
                     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
                     return ansi_escape.sub('', text)
@@ -80,9 +79,10 @@ class MunkiTestVMProcessor(Processor):
                 if full_output:
                     last_line_clean = strip_ansi(full_output[-1])
 
+                # Fix: Struktur mit "data" Key für AutoPkg Summary
                 self.env["testvm_summary_result"] = {
                     "summary_text": "The following VM test activities occurred:",
-                    "report_variables": {
+                    "data": {
                         "script": test_script_path,
                         "status": "Success" if proc.returncode == 0 else "FAILED",
                         "exit_code": str(proc.returncode),
