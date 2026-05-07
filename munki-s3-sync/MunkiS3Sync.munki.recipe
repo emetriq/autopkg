@@ -3,13 +3,15 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Synchronisiert das lokale Munki-Repo mit S3. Der Sync wird nur ausgeführt, wenn während des AutoPkg-Durchlaufs ein Paket neu importiert wurde (munki_repo_changed = True).</string>
+    <string>Synchronisiert das lokale Munki-Repo mit S3. Standardmäßig wird der Sync nur ausgeführt, wenn Änderungen am Repo erkannt wurden (munki_repo_changed). Über die Variable force_run kann dies erzwungen werden.</string>
     <key>Identifier</key>
     <string>com.github.emetriq.autopkg.munkis3sync</string>
     <key>Input</key>
     <dict>
         <key>S3_SYNC_SCRIPT_PATH</key>
         <string>/usr/local/bin/munki-s3-sync.sh</string>
+        <key>force_run</key>
+        <false/>
     </dict>
     <key>MinimumVersion</key>
     <string>0.2.0</string>
@@ -22,6 +24,8 @@
             <dict>
                 <key>s3_sync_script</key>
                 <string>%S3_SYNC_SCRIPT_PATH%</string>
+                <key>force_run</key>
+                <string>%force_run%</string>
             </dict>
         </dict>
     </array>
