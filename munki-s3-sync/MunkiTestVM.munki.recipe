@@ -3,18 +3,16 @@
 <plist version="1.0">
 <dict>
     <key>Description</key>
-    <string>Runs a VM test script if any prior recipes in the run imported new items into Munki.</string>
+    <string>Triggert den Munki-Testlauf in der GhostVM, sofern neue Pakete im Repo gelandet sind.</string>
     <key>Identifier</key>
-    <string>com.github.lindegroup.autopkg.munkitestvm</string>
+    <string>com.github.emetriq.autopkg.munkitestvm</string>
     <key>Input</key>
     <dict>
-        <key>NAME</key>
-        <string>MunkiTestVMRun</string>
         <key>TEST_SCRIPT_PATH</key>
         <string>/usr/local/bin/test_packages.py</string>
     </dict>
     <key>MinimumVersion</key>
-    <string>1.0.0</string>
+    <string>0.2.0</string>
     <key>Process</key>
     <array>
         <dict>
