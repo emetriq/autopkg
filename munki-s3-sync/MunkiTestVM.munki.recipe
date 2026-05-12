@@ -9,7 +9,7 @@
     <key>Input</key>
     <dict>
         <key>TEST_SCRIPT_PATH</key>
-        <string>/usr/local/bin/test_packages.py</string>
+        <string>/usr/local/bin/munki_test_packages.py</string>
         <key>force_run</key>
         <string>false</string>
         <key>DISABLE_CODE_SIGNATURE_VERIFICATION</key>

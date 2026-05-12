@@ -17,7 +17,7 @@ class MunkiTestVMProcessor(Processor):
     input_variables = {
         "test_script_path": {
             "required": True,
-            "description": "Full path to test_packages.py.",
+            "description": "Full path to munki_test_packages.py.",
         },
         "force_run": {
             "required": False,
