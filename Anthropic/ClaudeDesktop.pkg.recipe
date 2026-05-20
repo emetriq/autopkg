@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of Claude Desktop as a PKG.</string>
 	<key>Identifier</key>
-	<string>com.github.kevinmcox.pkg.ClaudeDesktop</string>
+	<string>com.github.emetriq.autopkg.pkg.ClaudeDesktop</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>

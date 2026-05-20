@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of Claude Desktop as a DMG and imports it into Munki.</string>
 	<key>Identifier</key>
-	<string>com.github.kevinmcox.munki.ClaudeDesktop</string>
+	<string>com.github.emetriq.autopkg.munki.ClaudeDesktop</string>
 	<key>Input</key>
 	<dict>
 		<key>MUNKI_CATEGORY</key>
@@ -41,7 +41,7 @@
 	<key>MinimumVersion</key>
 	<string>2.9.0</string>
 	<key>ParentRecipe</key>
-	<string>com.github.kevinmcox.download.ClaudeDesktop</string>
+	<string>com.github.emetriq.autopkg.download.ClaudeDesktop</string>
 	<key>Process</key>
 	<array>
 		<dict>
