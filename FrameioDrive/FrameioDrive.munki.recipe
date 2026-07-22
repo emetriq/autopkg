@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  FrameioDrive.munki.recipe  (Apple Silicon / arm64)
+  Importiert das PKG nach Munki. version_comparison_key sorgt dafuer, dass
+  gegen CFBundleShortVersionString der App verglichen wird (robust ggü. Selfupdate).
+  Umgebungsspezifisches (Katalog, Repo-Pfad) im Override anpassen.
+-->
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Importiert Frame.io Drive (Apple Silicon) nach Munki.</string>
+    <key>Identifier</key>
+    <string>com.emetriq.munki.FrameioDrive</string>
+    <key>ParentRecipe</key>
+    <string>com.emetriq.download.FrameioDrive</string>
+    <key>MinimumVersion</key>
+    <string>2.3</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>FrameioDrive</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps/%NAME%</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>name</key>
+            <string>FrameioDrive</string>
+            <key>display_name</key>
+            <string>Frame.io Drive</string>
+            <key>description</key>
+            <string>Frame.io Drive – Cloud-Mounted Storage und Transfer.</string>
+            <key>developer</key>
+            <string>Frame.io</string>
+            <key>category</key>
+            <string>Productivity</string>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>supported_architectures</key>
+            <array>
+                <string>arm64</string>
+            </array>
+            <key>minimum_os_version</key>
+            <string>12.0</string>
+            <key>unattended_install</key>
+            <true/>
+            <key>unattended_uninstall</key>
+            <true/>
+            <key>blocking_applications</key>
+            <array>
+                <string>Frame.io Drive</string>
+            </array>
+        </dict>
+    </dict>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+                <key>version_comparison_key</key>
+                <string>CFBundleShortVersionString</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>

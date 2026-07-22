@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  FrameioDrive.install.recipe  (Apple Silicon / arm64)
+  Installiert das geladene PKG lokal auf dem AutoPkg-Host (zum Testen).
+  Benoetigt root:  sudo autopkg run FrameioDrive.install
+-->
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Installiert Frame.io Drive lokal (Testinstall auf dem AutoPkg-Host).</string>
+    <key>Identifier</key>
+    <string>com.emetriq.install.FrameioDrive</string>
+    <key>ParentRecipe</key>
+    <string>com.emetriq.download.FrameioDrive</string>
+    <key>MinimumVersion</key>
+    <string>2.3</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>FrameioDrive</string>
+    </dict>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Processor</key>
+            <string>Installer</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pathname%</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
