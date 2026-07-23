@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Description</key>
-	<string>Importiert Frame.io Drive (arm64) nach Munki; installs via MunkiInstallsItemsCreator, ohne Receipt.</string>
+	<string>Importiert Frame.io Drive (arm64) nach Munki; installs via MunkiPkginfoMerger, Version via Versioner, ohne Receipt.</string>
 	<key>Identifier</key>
 	<string>com.emetriq.munki.FrameioDrive</string>
 	<key>Input</key>
@@ -88,28 +88,38 @@
 		<dict>
 			<key>Arguments</key>
 			<dict>
-				<key>destination_path</key>
-				<string>%RECIPE_CACHE_DIR%/staging/Applications/Frame.io Drive.app</string>
-				<key>overwrite</key>
-				<true/>
-				<key>source_path</key>
-				<string>%RECIPE_CACHE_DIR%/payload/Frame.io Drive.app</string>
+				<key>input_plist_path</key>
+				<string>%RECIPE_CACHE_DIR%/payload/Frame.io Drive.app/Contents/Info.plist</string>
+				<key>plist_version_key</key>
+				<string>CFBundleShortVersionString</string>
 			</dict>
 			<key>Processor</key>
-			<string>Copier</string>
+			<string>Versioner</string>
 		</dict>
 		<dict>
 			<key>Arguments</key>
 			<dict>
-				<key>faux_root</key>
-				<string>%RECIPE_CACHE_DIR%/staging</string>
-				<key>installs_item_paths</key>
-				<array>
-					<string>/Applications/Frame.io Drive.app</string>
-				</array>
+				<key>additional_pkginfo</key>
+				<dict>
+					<key>installs</key>
+					<array>
+						<dict>
+							<key>CFBundleIdentifier</key>
+							<string>com.frameio.drive</string>
+							<key>CFBundleShortVersionString</key>
+							<string>%version%</string>
+							<key>path</key>
+							<string>/Applications/Frame.io Drive.app</string>
+							<key>type</key>
+							<string>application</string>
+						</dict>
+					</array>
+					<key>version</key>
+					<string>%version%</string>
+				</dict>
 			</dict>
 			<key>Processor</key>
-			<string>MunkiInstallsItemsCreator</string>
+			<string>MunkiPkginfoMerger</string>
 		</dict>
 		<dict>
 			<key>Arguments</key>
