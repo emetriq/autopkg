@@ -1,45 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<recipe>
-  <identifier>com.github.emetriq.autopkg.pdfsambasic.pkg</identifier>
-  <parent>com.github.emetriq.autopkg.pdfsambasic.download</parent>
-  <description>Erstellt ein PKG aus dem geladenen DMG und versieht es mit Versionsnummer und Architektur im Namen.</description>
-  <minimum_autopkg_version>2.3</minimum_autopkg_version>
-
-  <input>
-    <ARCH_TOKEN>arm64</ARCH_TOKEN>
-    <EXTRACT_DIR>%RECIPE_CACHE_DIR%/extract</EXTRACT_DIR>
-    <BUNDLE_ID>org.pdfsam.basic</BUNDLE_ID>
-    <TEAM_ID>8XM3GHX436</TEAM_ID>
-  </input>
-
-  <process>
-    <!-- Version aus der App im DMG ermitteln -->
-    <processor>AppDmgVersioner</processor>
-    <arguments>
-      <dmg_path>%pathname%</dmg_path>
-    </arguments>
-
-    <!-- App aus dem DMG extrahieren -->
-    <processor>AppDmgExtractor</processor>
-    <arguments>
-      <dmg_path>%pathname%</dmg_path>
-      <destination_path>%EXTRACT_DIR%</destination_path>
-    </arguments>
-
-    <!-- Signatur prüfen -->
-    <processor>CodeSignatureVerifier</processor>
-    <arguments>
-      <input_path>%EXTRACT_DIR%/PDFsam Basic.app</input_path>
-      <requirement>identifier "%BUNDLE_ID%" and anchor apple generic and certificate leaf[subject.OU] = "%TEAM_ID%"</requirement>
-    </arguments>
-
-    <!-- PKG bauen: Versions- und Arch-Kürzel im Dateinamen -->
-    <processor>PkgCreator</processor>
-    <arguments>
-      <pkg_path>%RECIPE_CACHE_DIR%/PDFsamBasic-%version%-%ARCH_TOKEN%.pkg</pkg_path>
-      <app_path>%EXTRACT_DIR%/PDFsam Basic.app</app_path>
-      <identifier>%BUNDLE_ID%</identifier>
-      <version>%version%</version>
-    </arguments>
-  </process>
-</recipe>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Erstellt ein PKG aus dem geladenen DMG und versieht es mit Versionsnummer und Architektur im Namen.</string>
+	<key>Identifier</key>
+	<string>com.github.emetriq.autopkg.pdfsambasic.pkg</string>
+	<key>Input</key>
+	<dict>
+		<key>ARCH_TOKEN</key>
+		<string>arm64</string>
+		<key>BUNDLE_ID</key>
+		<string>org.pdfsam.basic</string>
+		<key>NAME</key>
+		<string>PDFsam Basic</string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+	<key>ParentRecipe</key>
+	<string>com.github.emetriq.autopkg.pdfsambasic.download</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>dmg_path</key>
+				<string>%pathname%</string>
+			</dict>
+			<key>Processor</key>
+			<string>AppDmgVersioner</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>app_path</key>
+				<string>%pathname%/PDFsam Basic.app</string>
+				<key>bundleid</key>
+				<string>%BUNDLE_ID%</string>
+				<key>pkg_path</key>
+				<string>%RECIPE_CACHE_DIR%/PDFsamBasic-%version%-%ARCH_TOKEN%.pkg</string>
+				<key>version</key>
+				<string>%version%</string>
+			</dict>
+			<key>Processor</key>
+			<string>AppPkgCreator</string>
+		</dict>
+	</array>
+</dict>
+</plist>

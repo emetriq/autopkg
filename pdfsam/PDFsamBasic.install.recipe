@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<recipe>
-  <identifier>com.github.emetriq.autopkg.pdfsambasic.install</identifier>
-  <parent>com.github.emetriq.autopkg.pdfsambasic.pkg</parent>
-  <description>Installiert das erzeugte PKG lokal (z. B. für Tests).</description>
-  <minimum_autopkg_version>2.3</minimum_autopkg_version>
-
-  <input>
-    <ARCH_TOKEN>arm64</ARCH_TOKEN>
-  </input>
-
-  <process>
-    <processor>Installer</processor>
-    <arguments>
-      <pkg_path>%RECIPE_CACHE_DIR%/PDFsamBasic-%version%-%ARCH_TOKEN%.pkg</pkg_path>
-    </arguments>
-  </process>
-</recipe>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Installiert das erzeugte PKG lokal (z. B. für Tests).</string>
+	<key>Identifier</key>
+	<string>com.github.emetriq.autopkg.pdfsambasic.install</string>
+	<key>ParentRecipe</key>
+	<string>com.github.emetriq.autopkg.pdfsambasic.pkg</string>
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>PDFsam Basic</string>
+	</dict>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>Installer</string>
+			<key>Arguments</key>
+			<dict>
+				<key>pkg_path</key>
+				<string>%pkg_path%</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

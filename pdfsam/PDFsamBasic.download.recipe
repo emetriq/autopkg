@@ -1,31 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<recipe>
-  <identifier>com.github.emetriq.autopkg.pdfsambasic.download</identifier>
-  <description>Lädt das passende PDFsam Basic DMG für macOS (arm64 oder x64) und übernimmt den Original-Dateinamen.</description>
-  <minimum_autopkg_version>2.3</minimum_autopkg_version>
-
-  <input>
-    <NAME>PDFsam Basic</NAME>
-    <DOWNLOAD_PAGE_URL>https://pdfsam.org/de/download-pdfsam-basic/</DOWNLOAD_PAGE_URL>
-    <!-- ARCH_TOKEN: arm64 (Apple Silicon) oder x64 (Intel) -->
-    <ARCH_TOKEN>arm64</ARCH_TOKEN>
-  </input>
-
-  <process>
-    <!-- Link zum passenden DMG (Version inkl. im Dateinamen) aus der Seite parsen -->
-    <processor>URLTextSearcher</processor>
-    <arguments>
-      <url>%DOWNLOAD_PAGE_URL%</url>
-      <re_pattern>href="(https://github\.com/torakiki/pdfsam/releases/download/[^"]+/pdfsam-basic-[^"]+-macos-%ARCH_TOKEN%\.dmg)"</re_pattern>
-      <result_output_var_name>download_url</result_output_var_name>
-    </arguments>
-
-    <!-- DMG laden: KEIN filename gesetzt -> Original-Dateiname bleibt erhalten -->
-    <processor>URLDownloader</processor>
-    <arguments>
-      <url>%download_url%</url>
-    </arguments>
-
-    <processor>EndOfCheckPhase</processor>
-  </process>
-</recipe>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Lädt das passende PDFsam Basic DMG für macOS (arm64 oder x64) und übernimmt den Original-Dateinamen.</string>
+	<key>Identifier</key>
+	<string>com.github.emetriq.autopkg.pdfsambasic.download</string>
+	<key>MinimumVersion</key>
+	<string>2.3</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>PDFsam Basic</string>
+		<key>DOWNLOAD_PAGE_URL</key>
+		<string>https://pdfsam.org/de/download-pdfsam-basic/</string>
+		<!-- ARCH_TOKEN: arm64 (Apple Silicon) oder x64 (Intel) -->
+		<key>ARCH_TOKEN</key>
+		<string>arm64</string>
+	</dict>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>URLTextSearcher</string>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>%DOWNLOAD_PAGE_URL%</string>
+				<key>re_pattern</key>
+				<string>href="(https://github\.com/torakiki/pdfsam/releases/download/[^"]+/pdfsam-basic-[^"]+-macos-%ARCH_TOKEN%\.dmg)"</string>
+				<key>result_output_var_name</key>
+				<string>download_url</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>url</key>
+				<string>%download_url%</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>CodeSignatureVerifier</string>
+			<key>Arguments</key>
+			<dict>
+				<key>input_path</key>
+				<string>%pathname%/PDFsam Basic.app</string>
+				<key>requirement</key>
+				<string>identifier "org.pdfsam.basic" and anchor apple generic and certificate leaf[subject.OU] = "8XM3GHX436"</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
