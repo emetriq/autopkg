@@ -39,7 +39,7 @@
 	<key>MinimumVersion</key>
 	<string>1.1</string>
 	<key>ParentRecipe</key>
-	<string>local.download.Anki</string>
+	<string>com.github.emetriq.autopkg.download.Anki</string>
 	<key>Process</key>
 	<array>
 		<dict>
