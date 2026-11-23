@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Downloads the latest Apple Silicon release of Anki from GitHub (ankitects/anki). Signing identity since 26.09.4: Anki Software LLC (ZL66D3NMZM).</string>
 	<key>Identifier</key>
-	<string>local.download.Anki</string>
+	<string>com.github.emetriq.autopkg.download.Anki</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>

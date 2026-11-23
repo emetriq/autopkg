@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Downloads the latest Apple Silicon release of Anki and imports it into Munki.</string>
 	<key>Identifier</key>
-	<string>local.munki.Anki</string>
+	<string>com.github.emetriq.autopkg.munki.Anki</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>
